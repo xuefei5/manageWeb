@@ -47,7 +47,7 @@ const queryListAsync = (params)=>getAction("/sys/permission/queryListAsync",para
 const queryRolePermission = (params)=>getAction("/sys/permission/queryRolePermission",params);
 const saveRolePermission = (params)=>postAction("/sys/permission/saveRolePermission",params);
 //const queryPermissionsByUser = (params)=>getAction("/sys/permission/queryByUser",params);
-const queryPermissionsByUser = (params)=>getAction("/sys/permission/getUserPermissionByToken",params);
+const queryPermissionsByUser = (params)=>getAction("/order/menu/getUserPermissionByToken",params);
 const loadAllRoleIds = (params)=>getAction("/sys/permission/loadAllRoleIds",params);
 const getPermissionRuleList = (params)=>getAction("/sys/permission/getPermRuleListByPermId",params);
 const queryPermissionRule = (params)=>getAction("/sys/permission/queryPermissionRule",params);

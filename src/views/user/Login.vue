@@ -1,17 +1,17 @@
 <template>
   <div class="main">
     <a-form :form="form" class="user-layout-login" ref="formLogin" id="formLogin">
-      <a-tabs
+      <!--<a-tabs
         :activeKey="customActiveKey"
         :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
         @change="handleTabClick">
-        <a-tab-pane key="tab1" tab="账号密码登录">
+        <a-tab-pane key="tab1" tab="账号密码登录">-->
           <a-form-item>
             <a-input
               size="large"
               v-decorator="['username',validatorRules.username,{ validator: this.handleUsernameOrEmail }]"
               type="text"
-              placeholder="请输入帐户名 / admin">
+              placeholder="请输入帐户名/手机号">
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -22,7 +22,7 @@
               size="large"
               type="password"
               autocomplete="false"
-              placeholder="密码 / 123456">
+              placeholder="密码">
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
@@ -47,8 +47,8 @@
           </a-row>
 
 
-        </a-tab-pane>
-        <a-tab-pane key="tab2" tab="手机号登录">
+        <!--</a-tab-pane>-->
+        <!--<a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
             <a-input
               v-decorator="['mobile',validatorRules.mobile]"
@@ -81,9 +81,9 @@
             </a-col>
           </a-row>
         </a-tab-pane>
-      </a-tabs>
+      </a-tabs>-->
 
-      <a-form-item>
+      <!--<a-form-item>
         <a-checkbox v-decorator="['rememberMe', {initialValue: true, valuePropName: 'checked'}]" >自动登录</a-checkbox>
         <router-link :to="{ name: 'alteration'}" class="forge-password" style="float: right;">
           忘记密码
@@ -91,7 +91,7 @@
        <router-link :to="{ name: 'register'}" class="forge-password" style="float: right;margin-right: 10px" >
           注册账户
         </router-link>
-      </a-form-item>
+      </a-form-item>-->
 
       <a-form-item style="margin-top:24px">
         <a-button
@@ -105,12 +105,12 @@
         </a-button>
       </a-form-item>
 
-      <div class="user-login-other">
+      <!--<div class="user-login-other">
         <span>其他登录方式</span>
         <a @click="onThirdLogin('github')" title="github"><a-icon class="item-icon" type="github"></a-icon></a>
         <a @click="onThirdLogin('wechat_enterprise')" title="企业微信"><a-icon class="item-icon" type="wechat"></a-icon></a>
         <a @click="onThirdLogin('dingtalk')" title="钉钉"><a-icon class="item-icon" type="dingding"></a-icon></a>
-      </div>
+      </div>-->
     </a-form>
 
     <two-step-captcha
@@ -324,7 +324,7 @@
       },
       handleChangeCheckCode(){
         this.currdatetime = new Date().getTime();
-        getAction(`/sys/randomImage/${this.currdatetime}`).then(res=>{
+        getAction(`/acc/loginService/randomImage/${this.currdatetime}`).then(res=>{
           if(res.success){
             this.randCodeImage = res.result
             this.requestCodeSuccess=true
