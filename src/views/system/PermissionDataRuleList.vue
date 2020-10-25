@@ -107,8 +107,8 @@
         form: this.$form.createForm(this),
         loading: false,
         url: {
-          list: "/sys/permission/getPermRuleListByPermId",
-          delete: "/sys/permission/deletePermissionRule",
+          list: "/acc/permission/getPermRuleListByPermId",
+          delete: "/acc/permission/deletePermissionRule",
         },
       }
     },

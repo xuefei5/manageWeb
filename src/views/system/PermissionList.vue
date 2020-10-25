@@ -48,9 +48,9 @@
               <a-menu-item>
                 <a href="javascript:;" @click="handleAddSub(record)">添加下级</a>
               </a-menu-item>
-              <a-menu-item>
+              <!--<a-menu-item>
                 <a href="javascript:;" @click="handleDataRule(record)">数据规则</a>
-              </a-menu-item>
+              </a-menu-item>-->
 
               <a-menu-item>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
@@ -159,9 +159,9 @@
         // 展开的行，受控属性
         expandedRowKeys: [],
         url: {
-          list: '/sys/permission/list',
-          delete: '/sys/permission/delete',
-          deleteBatch: '/sys/permission/deleteBatch'
+          list: '/acc/permission/list',
+          delete: '/acc/permission/delete',
+          deleteBatch: '/acc/permission/deleteBatch'
         }
       }
     },

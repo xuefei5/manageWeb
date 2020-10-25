@@ -82,9 +82,9 @@
           ruleColumn: {rules: []}
         },
         url: {
-          list: '/sys/dictItem/list',
-          add: '/sys/permission/addPermissionRule',
-          edit: '/sys/permission/editPermissionRule'
+          list: '/acc/dictItem/list',
+          add: '/acc/permission/addPermissionRule',
+          edit: '/acc/permission/editPermissionRule'
         },
         showRuleColumn:true
       }

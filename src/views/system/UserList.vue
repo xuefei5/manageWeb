@@ -66,11 +66,11 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator" style="border-top: 5px">
       <a-button @click="handleAdd" type="primary" icon="plus">添加用户</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
+      <!--<a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
-      <a-button type="primary" icon="hdd" @click="recycleBinVisible=true">回收站</a-button>
+      <a-button type="primary" icon="hdd" @click="recycleBinVisible=true">回收站</a-button>-->
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay" @click="handleMenuClick">
           <a-menu-item key="1">
@@ -91,7 +91,7 @@
           <a-icon type="down"/>
         </a-button>
       </a-dropdown>
-      <j-super-query :fieldList="superQueryFieldList" @handleSuperQuery="handleSuperQuery"/>
+      <!--<j-super-query :fieldList="superQueryFieldList" @handleSuperQuery="handleSuperQuery"/>-->
     </div>
 
     <!-- table区域-begin -->
@@ -155,9 +155,9 @@
                 </a-popconfirm>
               </a-menu-item>
 
-              <a-menu-item>
+              <!--<a-menu-item>
                 <a href="javascript:;" @click="handleAgentSettings(record.username)">代理人</a>
-              </a-menu-item>
+              </a-menu-item>-->
 
             </a-menu>
           </a-dropdown>
@@ -292,11 +292,11 @@
         ],
         url: {
           syncUser: "/process/extActProcess/doSyncUser",
-          list: "/sys/user/list",
-          delete: "/sys/user/delete",
-          deleteBatch: "/sys/user/deleteBatch",
-          exportXlsUrl: "/sys/user/exportXls",
-          importExcelUrl: "sys/user/importExcel",
+          list: "/acc/user/list",
+          delete: "/acc/user/delete",
+          deleteBatch: "/acc/user/deleteBatch",
+          exportXlsUrl: "/acc/user/exportXls",
+          importExcelUrl: "acc/user/importExcel",
         },
       }
     },

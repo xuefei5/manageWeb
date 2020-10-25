@@ -164,11 +164,11 @@
           }
         ],
         url: {
-          list: "/sys/role/list",
-          delete: "/sys/role/delete",
-          deleteBatch: "/sys/role/deleteBatch",
-          exportXlsUrl: "/sys/role/exportXls",
-          importExcelUrl: "sys/role/importExcel",
+          list: "/acc/role/list",
+          delete: "/acc/role/delete",
+          deleteBatch: "/acc/role/deleteBatch",
+          exportXlsUrl: "/acc/role/exportXls",
+          importExcelUrl: "acc/role/importExcel",
         },
       }
     },

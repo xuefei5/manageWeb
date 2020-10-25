@@ -34,10 +34,10 @@
         <div class="table-operator" style="margin: 5px 0 10px 2px">
           <a-button @click="handleAdd" type="primary" icon="plus">新建角色</a-button>
           <!--<a-button @click="handleEdit(model1)" type="primary" icon="plus">角色编辑</a-button>-->
-          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+          <!--<a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
             <a-button type="primary" icon="import">导入</a-button>
           </a-upload>
-          <a-button type="primary" icon="download" @click="handleExportXls('角色管理')">导出</a-button>
+          <a-button type="primary" icon="download" @click="handleExportXls('角色管理')">导出</a-button>-->
         </div>
 
         <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
@@ -306,14 +306,14 @@
         // 高级查询拼接条件
         superQueryMatchType2: 'and',
         url: {
-          list: '/sys/role/list',
-          delete: '/sys/role/delete',
-          list2: '/sys/user/userRoleList',
-          addUserRole: '/sys/user/addSysUserRole',
-          delete2: '/sys/user/deleteUserRole',
-          deleteBatch2: '/sys/user/deleteUserRoleBatch',
-          exportXlsUrl: 'sys/role/exportXls',
-          importExcelUrl: 'sys/role/importExcel'
+          list: '/acc/role/list',
+          delete: '/acc/role/delete',
+          list2: '/acc/user/userRoleList',
+          addUserRole: '/acc/user/addSysUserRole',
+          delete2: '/acc/user/deleteUserRole',
+          deleteBatch2: '/acc/user/deleteUserRoleBatch',
+          exportXlsUrl: 'acc/role/exportXls',
+          importExcelUrl: 'acc/role/importExcel'
         }
       }
     },

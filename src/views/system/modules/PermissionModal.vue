@@ -78,7 +78,7 @@
           <a-input placeholder="多个用逗号分隔, 如: user:list,user:create" v-decorator="[ 'perms', {rules:[{ required: false, message: '请输入授权标识!' },{validator: this.validatePerms }]}]" :readOnly="disableSubmit"/>
         </a-form-item>
 
-        <a-form-item
+        <!--<a-form-item
           v-show="!show"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -94,7 +94,7 @@
           label="状态">
           <j-dict-select-tag  v-decorator="['status', {}]" placeholder="请选择状态" :type="'radio'" :triggerChange="true" dictCode="valid_status"/>
 
-        </a-form-item>
+        </a-form-item>-->
 
         <a-form-item
           v-show="show"
