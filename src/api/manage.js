@@ -15,14 +15,6 @@ export default api
 
 //post
 export function postAction(url,parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     method:'post' ,
@@ -32,14 +24,6 @@ export function postAction(url,parameter) {
 
 //post method= {post | put}
 export function httpAction(url,parameter,method) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     method:method ,
@@ -49,14 +33,6 @@ export function httpAction(url,parameter,method) {
 
 //put
 export function putAction(url,parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     method:'put',
@@ -66,14 +42,6 @@ export function putAction(url,parameter) {
 
 //get
 export function getAction(url,parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     method: 'get',
@@ -83,14 +51,6 @@ export function getAction(url,parameter) {
 
 //deleteAction
 export function deleteAction(url,parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     method: 'delete',
@@ -99,14 +59,6 @@ export function deleteAction(url,parameter) {
 }
 
 export function getUserList(parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: api.user,
     method: 'get',
@@ -115,14 +67,6 @@ export function getUserList(parameter) {
 }
 
 export function getRoleList(parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: api.role,
     method: 'get',
@@ -131,14 +75,6 @@ export function getRoleList(parameter) {
 }
 
 export function getServiceList(parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: api.service,
     method: 'get',
@@ -147,14 +83,6 @@ export function getServiceList(parameter) {
 }
 
 export function getPermissions(parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: api.permissionNoPager,
     method: 'get',
@@ -165,14 +93,6 @@ export function getPermissions(parameter) {
 // id == 0 add     post
 // id != 0 update  put
 export function saveService(parameter) {
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: api.service,
     method: parameter.id == 0 ? 'post' : 'put',
@@ -187,14 +107,6 @@ export function saveService(parameter) {
  * @returns {*}
  */
 export function downFile(url,parameter){
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     params: parameter,
@@ -239,14 +151,6 @@ export function downloadFile(url, fileName, parameter) {
  * @returns {*}
  */
 export function uploadAction(url,parameter){
-  //add by xuefei5 统一添加token信息
-  let v_token = Vue.ls.get(ACCESS_TOKEN);
-  if(!parameter){
-    parameter = {};
-  }
-  if(v_token){
-    parameter['token'] = v_token;
-  }
   return axios({
     url: url,
     data: parameter,
