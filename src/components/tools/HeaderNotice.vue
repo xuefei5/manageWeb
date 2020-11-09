@@ -1,5 +1,5 @@
 <template>
-  <a-popover
+<!--  <a-popover
     trigger="click"
     placement="bottomRight"
     :autoAdjustOverflow="true"
@@ -11,7 +11,7 @@
       <a-spin :spinning="loadding">
         <a-tabs>
           <a-tab-pane :tab="msg1Title" key="1">
-            <!--<a-list>
+            &lt;!&ndash;<a-list>
               <a-list-item>
                 <a-list-item-meta title="你收到了 14 份新周报" description="一年前">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"/>
@@ -27,7 +27,7 @@
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png"/>
                 </a-list-item-meta>
               </a-list-item>
-            </a-list>-->
+            </a-list>&ndash;&gt;
             <a-list>
               <a-list-item :key="index" v-for="(record, index) in announcement1">
                 <div style="margin-left: 5%;width: 80%">
@@ -73,7 +73,7 @@
     </span>
     <show-announcement ref="ShowAnnouncement" @ok="modalFormOk"></show-announcement>
     <dynamic-notice ref="showDynamNotice" :path="openPath" :formData="formData"/>
-  </a-popover>
+  </a-popover>-->
 </template>
 
 <script>
