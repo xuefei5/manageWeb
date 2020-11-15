@@ -22,7 +22,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="主页预览">
-          <img src="http://39.104.93.182:8080/images/main_back.png" style="width: 50%;height: 50%"/>
+          <img :src="fileList" style="width: 50%;height: 50%"/>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -31,8 +31,8 @@
 
 <script>
   import pick from 'lodash.pick'
-  import {addRole,editRole,duplicateCheck } from '@/api/api'
   import JImageUpload from "../../../components/jeecg/JImageUpload";
+  import {postAction} from "@api/manage";
 
   export default {
     name: "UploadMain",
@@ -72,14 +72,17 @@
         this.form.validateFields((err, values) => {
           if (!err) {
             that.confirmLoading = true;
-            let formData = Object.assign(this.model, values);
+            let formData = {};
+            let validDate =this.fileList;
+            console.log(validDate);
+              formData['url']= validDate;
             let obj;
             console.log(formData)
             if(!this.model.id){
-              obj=addRole(formData);
-            }else{
+              obj=postAction("/acc/zknh_wechat_config/wechatMainUpdate",formData);
+            }/*else{
               obj=editRole(formData);
-            }
+            }*/
             obj.then((res)=>{
               if(res.success){
                 that.$message.success(res.message);

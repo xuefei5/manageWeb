@@ -43,10 +43,12 @@
     name: 'JImageUpload',
     data(){
       return {
-        uploadAction:window._CONFIG['domianURL']+"/sys/common/upload",
+        uploadAction:window._CONFIG['domianURL']+"/acc/zknh_Image_upload/upload",
         uploadLoading:false,
         picUrl:false,
-        headers:{},
+        headers:{
+          contentType: false
+        },
         fileList: [],
         previewImage:"",
         previewVisible: false,
