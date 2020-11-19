@@ -118,13 +118,19 @@
               message:arr[a]
             }
           })
+          console.log(fileList);
         }
         this.fileList = fileList
       },
       beforeUpload: function(file){
         var fileType = file.type;
+        var le500k =file.size/1024 < 500;
         if(fileType.indexOf('image')<0){
           this.$message.warning('请上传图片');
+          return false;
+        }
+        if(!le500k){
+          this.$message.warning('上传图片大小不能超过 500k');
           return false;
         }
       },

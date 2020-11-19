@@ -7,43 +7,26 @@
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="12">
-            <a-form-item label="商品名称">
-              <j-input placeholder="输入账号模糊查询" v-model="queryParam.offerName"></j-input>
+            <a-form-item label="模块名称">
+              <j-input placeholder="输入模块名称" v-model="queryParam.modalName"></j-input>
             </a-form-item>
           </a-col>
 
           <a-col :md="6" :sm="12">
-            <a-form-item label="商品编码">
-              <j-input placeholder="输入商品编码" v-model="queryParam.offerId"></j-input>
+            <a-form-item label="图片路径/图标名称">
+              <j-input placeholder="输入路径/名称" v-model="queryParam.modalIcon"></j-input>
             </a-form-item>
           </a-col>
 
 
           <template v-if="toggleSearchStatus">
             <a-col :md="6" :sm="8">
-              <a-form-item label="商品类型">
-                <!--1、准旗特产2、绿色蔬菜3、水果4、米面粮油5、肉禽蛋类6、休闲食品7、酒水饮料8、副食调料9、农品供应-->
-                <a-select v-model="queryParam.offerType" placeholder="请选择">
+              <a-form-item label="链接方式">
+                <!--1、内部链接、2.外部链接-->
+                <a-select v-model="queryParam.modalType" placeholder="请选择">
                   <a-select-option value="">请选择</a-select-option>
-                  <a-select-option value="1">准旗特产</a-select-option>
-                  <a-select-option value="2">绿色蔬菜</a-select-option>
-                  <a-select-option value="3">水果</a-select-option>
-                  <a-select-option value="4">米面粮油</a-select-option>
-                  <a-select-option value="5">肉禽蛋类</a-select-option>
-                  <a-select-option value="6">休闲食品</a-select-option>
-                  <a-select-option value="7">酒水饮料</a-select-option>
-                  <a-select-option value="8">副食调料</a-select-option>
-                  <a-select-option value="9">农品供应</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-
-            <a-col :md="6" :sm="8">
-              <a-form-item label="商品状态">
-                <a-select v-model="queryParam.status" placeholder="请选择">
-                  <a-select-option value="">请选择</a-select-option>
-                  <a-select-option value="1">生效</a-select-option>
-                  <a-select-option value="2">失效</a-select-option>
+                  <a-select-option value="1">内部链接</a-select-option>
+                  <a-select-option value="2">外部链接</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -124,19 +107,19 @@
               </a-menu-item>
 
               <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.offerId)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
 
               <a-menu-item v-if="record.status==1">
-                <a-popconfirm title="确定冻结吗?" @confirm="() => handleFrozen(record.offerId,2,record.username)">
+                <a-popconfirm title="确定冻结吗?" @confirm="() => handleFrozen(record.id,2,record.username)">
                   <a>失效</a>
                 </a-popconfirm>
               </a-menu-item>
 
               <a-menu-item v-if="record.status==2">
-                <a-popconfirm title="确定解冻吗?" @confirm="() => handleFrozen(record.offerId,1,record.username)">
+                <a-popconfirm title="确定解冻吗?" @confirm="() => handleFrozen(record.id,1,record.username)">
                   <a>生效</a>
                 </a-popconfirm>
               </a-menu-item>
@@ -159,7 +142,7 @@
 <script>
   import IndexManageModal from './modules/IndexManageModal'
   import {putAction,getFileAccessHttpUrl} from '@/api/manage';
-  import {frozenBatch} from '@/api/api'
+  import {modelUpdate} from '@/api/api'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JInput from '@/components/jeecg/JInput'
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
@@ -181,50 +164,54 @@
         recycleBinVisible: false,
         columns: [
           {
-            title: '商品编码',
+            title: '模块名称',
             align: "center",
-            dataIndex: 'offerId',
+            dataIndex: 'modalName',
             width: 120,
             sorter: true,
             ellipsis:true
           },
           {
-            title: '商品名称',
+            title: '链接方式',
             align: "center",
             width: 100,
-            dataIndex: 'offerName',
+            dataIndex: 'modalType',
           },
           {
-            title: '商品描述',
+            title: '图片路径/图标名称',
             align: "center",
             width: 120,
-            dataIndex: 'offerDesc',
-          },
-
-          {
-            title: '商品类型',
-            align: "center",
-            width: 80,
-            dataIndex: 'offerType',
-            sorter: true
+            dataIndex: 'modalIcon',
           },
           {
-            title: '价格',
+            title: '链接地址',
             align: "center",
             width: 100,
-            dataIndex: 'offerPrice'
+            dataIndex: 'modalUrl'
           },
           {
-            title: '创建时间',
+            title: '排序',
+            align: "center",
+            width: 120,
+            dataIndex: 'sort',
+          },
+          {
+            title: '模块状态',
             align: "center",
             width: 100,
-            dataIndex: 'createTime'
+            dataIndex: 'status',
           },
           {
-            title: '创建人',
+            title: '修改时间',
+            align: "center",
+            width: 100,
+            dataIndex: 'doneDate'
+          },
+          {
+            title: '修改人员',
             align: "center",
             width: 180,
-            dataIndex: 'createUserName'
+            dataIndex: 'doneUserName'
           },
           {
             title: '操作',
@@ -236,9 +223,9 @@
 
         ],
         url: {
-          list: "/offer/offer/list",
-          delete: "/offer/offer/delete",
-          deleteBatch: "/offer/offer/deleteBatch",
+          list: "/acc/zknh_wechat_config/queryModule",
+          delete: "/acc/zknh_wechat_config/deleteModule",
+          deleteBatch: "/acc/zknh_wechat_config/deleteBatch",
         },
       }
     },
@@ -273,7 +260,7 @@
             title: "确认操作",
             content: "是否" + (status == 1 ? "解冻" : "冻结") + "选中账号?",
             onOk: function () {
-              frozenBatch({ids: ids, status: status}).then((res) => {
+              modelUpdate({id: ids, status: status}).then((res) => {
                 if (res.success) {
                   that.$message.success(res.message);
                   that.loadData();
@@ -302,7 +289,7 @@
           that.$message.warning('管理员账号不允许此操作！');
           return;
         }
-        frozenBatch({ids: id, status: status}).then((res) => {
+        modelUpdate({id: id, status: status}).then((res) => {
           if (res.success) {
             that.$message.success(res.message);
             that.loadData();
@@ -321,5 +308,5 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
 </style>

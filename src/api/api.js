@@ -28,7 +28,8 @@ const frozenBatch = (params)=>putAction("/acc/user/frozenBatch",params);
 const checkOnlyUser = (params)=>getAction("/acc/user/checkOnlyUser",params);
 //改变密码
 const changePassword = (params)=>putAction("/acc/user/changePassword",params);
-
+//20201119王顺 模块修改
+const modelUpdate = (params)=>postAction("/acc/zknh_wechat_config/editModule",params);
 //权限管理
 const addPermission= (params)=>postAction("/acc/permission/add",params);
 const editPermission= (params)=>putAction("/acc/permission/edit",params);
@@ -137,6 +138,7 @@ export {
   getUserList,
   queryall,
   frozenBatch,
+  modelUpdate,
   checkOnlyUser,
   changePassword,
   getPermissionList,
