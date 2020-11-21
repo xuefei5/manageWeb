@@ -22,7 +22,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="主页预览">
-          <img :src="fileList" style="width: 50%;height: 50%"/>
+          <img :src="'http://39.104.93.182/images/'+fileList" style="width: 50%;height: 50%"/>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -74,10 +74,13 @@
             that.confirmLoading = true;
             let formData = {};
             let validDate =this.fileList;
-            console.log(validDate);
+            let length = this.fileList.length;
+            console.log(length)
+            if(length == '0'){
+              return (new Error("未获取到图片/图标"));
+            }
               formData['url']= validDate;
             let obj;
-            console.log(formData)
             if(!this.model.id){
               obj=postAction("/acc/zknh_wechat_config/wechatMainUpdate",formData);
             }/*else{

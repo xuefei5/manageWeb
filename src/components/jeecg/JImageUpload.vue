@@ -123,6 +123,7 @@
         this.fileList = fileList
       },
       beforeUpload: function(file){
+        console.log("ceshi"+file);
         var fileType = file.type;
         var le500k =file.size/1024 < 500;
         if(fileType.indexOf('image')<0){
