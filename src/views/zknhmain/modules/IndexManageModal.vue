@@ -30,10 +30,6 @@
             <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input placeholder="请输入图片路径/图标名称" v-decorator.trim="[ 'modalIcon', validatorRules.modalIcon]" />
-        </a-form-item>
-
         <a-form-item label="链接方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <!--1、内部链接、2.外部链接-->
           <a-select v-decorator.trim="[ 'modalType', validatorRules.modalType]"   placeholder="请选择">
@@ -53,7 +49,18 @@
         <a-form-item label="链接地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input placeholder="请输入链接地址" v-decorator.trim="[ 'modalUrl', validatorRules.modalUrl]" />
         </a-form-item>
-
+       <!-- 图标上传按钮-->
+        <a-upload
+          :action="uploadAction"
+          :headers="headers"
+          list-type="picture"
+          :multiple="false"
+          :file-list="fileList"
+          @change="handleChange"
+          v-decorator.trim="[ 'modalIcon', validatorRules.modalIcon]"
+        >
+          <a-button> <a-icon type="upload" /> 上传图标 </a-button>
+        </a-upload>
 
        <!-- <a-form-item label="图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-upload
@@ -85,26 +92,32 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { getAction,postAction } from '@/api/manage'
+  import Vue from 'vue'
+  import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage'
+  import { ACCESS_TOKEN } from "@/store/mutation-types"
 
   export default {
     name: "IndexManageModal",
     data () {
       return {
         list:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        uploadAction:window._CONFIG['domianURL']+"/acc/zknh_Image_upload/upload",
+        uploadLoading:false,
+        picUrl:false,
+        headers:{
+          contentType: false
+        },
 
+        previewImage:"",
+        previewVisible: false,
         modalWidth:800,
         drawerWidth:700,
         disableSubmit:false,
+        fileList: [],
         validatorRules:{
           modalName:{
             rules: [{
               required: true, message: '请输入模块名称!'
-            }]
-          },
-          modalIcon:{
-            rules: [{
-              required: true, message: '请输入图片路径/图标名称!'
             }]
           },
           modalType:{
@@ -145,6 +158,10 @@
     },
     computed:{
     },
+    created(){
+      const token = Vue.ls.get(ACCESS_TOKEN);
+      this.headers = {"X-Access-Token":token}
+    },
     methods: {
       //窗口最大化切换
       toggleScreen(){
@@ -157,6 +174,59 @@
       },
       refresh () {
       },
+      initFileList(paths){
+        if(!paths || paths.length==0){
+          this.fileList = [];
+          return;
+        }
+        this.picUrl = true;
+        let fileList = [];
+        let arr = paths.split(",")
+        for(var a=0;a<arr.length;a++){
+          let url = getFileAccessHttpUrl(arr[a]);
+          fileList.push({
+            uid: uidGenerator(),
+            name: getFileName(arr[a]),
+            status: 'done',
+            url: url,
+            response:{
+              status:"history",
+              message:arr[a]
+            }
+          })
+          console.log(fileList);
+        }
+        this.fileList = fileList
+      },
+      beforeUpload: function(file){
+        console.log("ceshi"+file);
+        var fileType = file.type;
+        var le500k =file.size/1024 < 500;
+        if(fileType.indexOf('image')<0){
+          this.$message.warning('请上传图片');
+          return false;
+        }
+        if(!le500k){
+          this.$message.warning('上传图片大小不能超过 500k');
+          return false;
+        }
+      },
+      handleChange(info) {
+        let fileList = [...info.fileList];
+
+        // 1. Limit the number of uploaded files
+        fileList = fileList.slice(-1);
+        // 2. read from response and show file link
+        fileList = fileList.map(file => {
+          if (file.response) {
+            // Component will show file.url as link
+            file.url = file.response.url;
+          }
+          return file;
+        });
+
+        this.fileList = fileList;
+      },
       add () {
         this.refresh();
         this.edit({activitiSync:'1'});
@@ -168,7 +238,7 @@
         that.visible = true;
         that.model = Object.assign({}, record);
         that.$nextTick(() => {
-          that.form.setFieldsValue(pick(this.model,'id','modalName','modalType','modalIcon','iconType','modalUrl','sort'))
+          that.form.setFieldsValue(pick(this.model,'id','modalName','modalType','modalIcon','iconType','modalUrl','sort','status'))
         });
       },
       close () {
@@ -183,6 +253,12 @@
           if (!err) {
             that.confirmLoading = true;
             let formData = Object.assign(this.model, values);
+            var aaa = this.fileList.length;
+            console.log(aaa)
+            if(aaa != 0){
+              let validDate =this.fileList[0].name;
+              formData['modalIcon']= validDate;
+            }
             let obj;
             if(!this.model.id){
               //添加
@@ -190,7 +266,6 @@
             }else{
               //修改
               obj=postAction("/acc/zknh_wechat_config/editModule",formData);
-              console.log(obj);
             }
             console.log(obj);
             obj.then((res)=>{
@@ -227,4 +302,16 @@
 </script>
 
 <style scoped>
+/* tile uploaded pictures */
+.upload-list-inline >>> .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+.upload-list-inline >>> .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+.upload-list-inline >>> .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
 </style>
