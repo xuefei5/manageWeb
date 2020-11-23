@@ -74,7 +74,7 @@
     </div>
     <!-- table区域-end -->
 
-    <village-model ref="modalForm"></village-model>
+    <villages-model ref="modalForm"></villages-model>
   </div>
 </template>
 
@@ -83,13 +83,13 @@ import {getAction,postAction} from '@/api/manage';
 import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 import JInput from '@/components/jeecg/JInput'
 import JSuperQuery from '@/components/jeecg/JSuperQuery'
-import VillageModel from "./VillageModel";
+import VillagesModel from "./VillagesModel";
 
 export default {
   name: "VillagesList",
   mixins: [JeecgListMixin],
   components: {
-    VillageModel,
+    VillagesModel,
     JInput,
     JSuperQuery
   },
@@ -153,8 +153,8 @@ export default {
 
       ],
       url: {
-        list: "/offer/offer/list",
-        delete: "/offer/offer/delete",
+        list: "/acc/zknh_wechat_config/queryTownsVillages",
+        delete: "/acc/zknh_wechat_config/deleteVillages",
       },
     }
   },
