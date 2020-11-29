@@ -35,12 +35,15 @@
         </a-form-item>
 
         <a-form-item label="模块图片" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <j-image-upload class="avatar-uploader" text="请上传图片" v-model="fileList" ></j-image-upload>
+          <j-image-upload ref="imageUpload" class="avatar-uploader" text="请上传图片" v-model="fileList"></j-image-upload>
         </a-form-item>
 
         <a-form-item label="详情描述" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-input style="height: 325px;" v-decorator.trim="[ 'detail', validatorRules.detail]" type="textarea" />
           <!--plugins把图片和媒体去了-->
+<!--
           <j-editor v-decorator="[ 'detail', validatorRules.detail ]" triggerChange plugins="lists link table textcolor wordcount contextmenu fullscreen"></j-editor>
+-->
         </a-form-item>
 
         <a-form-item
@@ -88,6 +91,7 @@
         visible: false,
         model: {},
         fileList:[],
+        fileListDis:false,
         sortLength:20,
         sortList:[],
         disableSubmit:false,
@@ -139,6 +143,11 @@
           this.form.setFieldsValue(pick(this.model,'id','villageId','modelName','modelSort'))
         });
         //图片特殊处理
+        if(this.model.modelImg){
+          this.fileList = this.model.modelImg;
+        }else{
+          this.fileList = [];
+        }
 
         //详情特殊处理
         if(this.model.id){
@@ -158,8 +167,8 @@
           if (!err) {
             that.confirmLoading = true;
             let formData = Object.assign(this.model, values);
+            formData.fileList = this.fileList;
             let obj;
-            console.log(formData)
             if(!this.model.id){
               formData.operType = "1";
             }else{

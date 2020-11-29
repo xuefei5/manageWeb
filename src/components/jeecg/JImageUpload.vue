@@ -82,14 +82,17 @@
       }
     },
     watch:{
-      value(val){
-        if (val instanceof Array) {
-          this.initFileList(val.join(','))
-        } else {
-          this.initFileList(val)
-        }
-        if(!val || val.length==0){
-          this.picUrl = false;
+      value:{
+        immediate:true,
+          handler:function(val){
+            if (val instanceof Array) {
+              this.initFileList(val.join(','))
+            } else {
+              this.initFileList(val)
+            }
+            if(!val || val.length==0){
+              this.picUrl = false;
+            }
         }
       }
     },
@@ -137,7 +140,9 @@
       },
       handleChange(info) {
         this.picUrl = false;
+        this.uploadLoading = true;
         let fileList = info.fileList
+
         if(info.file.status==='done'){
           if(info.file.response.success){
             this.picUrl = true;
@@ -145,17 +150,21 @@
               if (file.response) {
                 file.url = file.response.message;
               }
+              this.uploadLoading = false;
               return file;
             });
           }
           //this.$message.success(`${info.file.name} 上传成功!`);
         }else if (info.file.status === 'error') {
+          this.uploadLoading = false;
           this.$message.error(`${info.file.name} 上传失败.`);
         }else if(info.file.status === 'removed'){
+          this.uploadLoading = false;
           this.handleDelete(info.file)
         }
         this.fileList = fileList
         if(info.file.status==='done' || info.file.status === 'removed'){
+          this.uploadLoading = false;
           this.handlePathChange()
         }
       },

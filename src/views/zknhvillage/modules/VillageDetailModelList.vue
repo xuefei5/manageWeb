@@ -152,7 +152,6 @@
       }
     },
     mounted() {
-
     },
     methods: {
       getAvatarView: function (avatar) {
