@@ -7,8 +7,8 @@
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="12">
-            <a-form-item label="镇名称">
-              <j-input placeholder="输入镇名称模糊查询" v-model="queryParam.villageName"></j-input>
+            <a-form-item label="模块名称">
+              <j-input placeholder="输入模块名称模糊查询" v-model="queryParam.modelName"></j-input>
             </a-form-item>
           </a-col>
 
@@ -24,7 +24,7 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator" style="border-top: 5px">
-      <a-button @click="handleAdd" type="primary" icon="plus">增加模块</a-button>
+      <a-button @click="myHandleAdd" type="primary" icon="plus">增加模块</a-button>
     </div>
     <!-- 操作按钮区域 -->
 
@@ -41,6 +41,19 @@
         :pagination="ipagination"
         :loading="loading"
         @change="handleTableChange">
+
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-dropdown placement="topCenter">
+              <a-avatar style="" shape="square" :src="getAvatarView(record.modelImg)" icon="user"/>
+              <a-menu slot="overlay">
+                <a-menu-item>
+                  <img style="height: 10rem;width: 20rem" :src="getAvatarView(record.modelImg)"/>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+        </template>
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
@@ -70,16 +83,16 @@
     </div>
     <!-- table区域-end -->
 
-    <village-model-model ref="modalForm"></village-model-model>
+    <village-model-model ref="modalForm" @ok="modalFormOk"></village-model-model>
   </div>
 </template>
 
 <script>
-  import {getAction,postAction} from '@/api/manage';
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JInput from '@/components/jeecg/JInput'
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
   import VillageModelModel from "./VillageModelModel";
+  import {getFileAccessHttpUrl} from '@/api/manage';
 
   export default {
     name: "VillageDetailModelList",
@@ -91,66 +104,50 @@
     },
     data() {
       return {
-        queryParam: {},
+        queryParam: {
+          //暂时写死，其实是需要父级页面传进来的
+          villageId:'1'
+        },
         columns: [
           {
-            title: '商品编码',
+            title: '模块ID',
             align: "center",
-            dataIndex: 'offerId',
+            dataIndex: 'id',
             width: 120,
             sorter: true,
             ellipsis:true
           },
           {
-            title: '商品名称',
+            title: '模块名称',
             align: "center",
             width: 100,
-            dataIndex: 'offerName',
+            dataIndex: 'modelName',
           },
           {
-            title: '商品描述',
+            title: '模块头图片',
             align: "center",
             width: 120,
-            dataIndex: 'offerDesc',
-          },
-
-          {
-            title: '商品类型',
-            align: "center",
-            width: 80,
-            dataIndex: 'offerType',
-            sorter: true
+            dataIndex: 'modelImg',
+            scopedSlots: {customRender: "avatarslot"}
           },
           {
-            title: '价格',
+            title: '展示顺序',
             align: "center",
-            width: 100,
-            dataIndex: 'offerPrice'
-          },
-          {
-            title: '创建时间',
-            align: "center",
-            width: 100,
-            dataIndex: 'createTime'
-          },
-          {
-            title: '创建人',
-            align: "center",
-            width: 180,
-            dataIndex: 'createUserName'
+            width: 50,
+            dataIndex: 'modelSort',
           },
           {
             title: '操作',
             dataIndex: 'action',
             scopedSlots: {customRender: 'action'},
             align: "center",
-            width: 170
+            width: 50
           }
 
         ],
         url: {
-          list: "/offer/offer/list",
-          delete: "/offer/offer/delete",
+          list: "/acc/zknh_wechat_config/queryVillageModel",
+          delete: "/acc/zknh_wechat_config/deleteVillageModel",
         },
       }
     },
@@ -158,10 +155,19 @@
 
     },
     methods: {
+      getAvatarView: function (avatar) {
+        return getFileAccessHttpUrl(avatar);
+      },
+    myHandleAdd: function () {
+      this.$refs.modalForm.edit({'villageId':this.queryParam.villageId});
+      this.$refs.modalForm.title = "新增";
+      this.$refs.modalForm.disableSubmit = false;
+    }
     }
   }
 </script>
 
 <style scoped>
-
+  .anty-img-wrap{height:25px;position: relative;}
+  .anty-img-wrap > img{max-height:100%;}
 </style>
