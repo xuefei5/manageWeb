@@ -74,7 +74,7 @@
     </div>
     <!-- table区域-end -->
 
-    <villages-model ref="modalForm"></villages-model>
+    <village-model ref="modalForm"></village-model>
   </div>
 </template>
 
@@ -83,65 +83,61 @@ import {getAction,postAction} from '@/api/manage';
 import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 import JInput from '@/components/jeecg/JInput'
 import JSuperQuery from '@/components/jeecg/JSuperQuery'
-import VillagesModel from "./VillagesModel";
+import VillageModel from "./VillageModel";
 
 export default {
   name: "VillagesList",
   mixins: [JeecgListMixin],
   components: {
-    VillagesModel,
+    VillageModel,
     JInput,
     JSuperQuery
   },
   data() {
     return {
-      queryParam: {},
+      queryParam: {
+        //为了筛选村镇，1.镇，2.村
+        villageType :1
+      },
+
       columns: [
         {
-          title: '商品编码',
-          align: "center",
-          dataIndex: 'offerId',
-          width: 120,
-          sorter: true,
-          ellipsis:true
-        },
-        {
-          title: '商品名称',
+          title: '主键ID',
           align: "center",
           width: 100,
-          dataIndex: 'offerName',
+          dataIndex: 'id',
         },
         {
-          title: '商品描述',
+          title: '镇名称',
+          align: "center",
+          width: 100,
+          dataIndex: 'villageName',
+        },
+        {
+          title: '图片名称',
           align: "center",
           width: 120,
-          dataIndex: 'offerDesc',
+          dataIndex: 'villageBack',
         },
 
         {
-          title: '商品类型',
+          title: '排序',
           align: "center",
           width: 80,
-          dataIndex: 'offerType',
+          dataIndex: 'sort',
           sorter: true
         },
         {
-          title: '价格',
-          align: "center",
-          width: 100,
-          dataIndex: 'offerPrice'
-        },
-        {
-          title: '创建时间',
+          title: '修改时间',
           align: "center",
           width: 100,
           dataIndex: 'createTime'
         },
         {
-          title: '创建人',
+          title: '修改人员',
           align: "center",
-          width: 180,
-          dataIndex: 'createUserName'
+          width: 100,
+          dataIndex: 'doneUserName'
         },
         {
           title: '操作',
@@ -154,7 +150,7 @@ export default {
       ],
       url: {
         list: "/acc/zknh_wechat_config/queryTownsVillages",
-        delete: "/acc/zknh_wechat_config/deleteVillages",
+        delete: "/acc/zknh_wechat_config/deleteVillage",
       },
     }
   },

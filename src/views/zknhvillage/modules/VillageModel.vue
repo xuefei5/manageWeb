@@ -23,58 +23,44 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
-        <a-form-item label="商品名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input placeholder="请输入商品名称" v-decorator.trim="[ 'offerName', validatorRules.offerName]" :readOnly="!!model.id"/>
+        <a-form-item label="村/镇名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-input placeholder="请输入村/镇名称" v-decorator.trim="[ 'villageName', validatorRules.villageName]" :readOnly="!!model.id"/>
         </a-form-item>
 
-        <a-form-item label="商品描述" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-textarea placeholder="请输入商品描述(例如：【产自云南】很甜很过瘾)" v-decorator.trim="[ 'offerDesc', validatorRules.offerDesc]" :readOnly="!!model.id"/>
+        <a-form-item label="村庄简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-textarea placeholder="请输入村庄简介（如果是“镇”则不需要填写）" v-decorator.trim="[ 'villageContent', validatorRules.villageContent]" :readOnly="!!model.id"/>
         </a-form-item>
-
-        <a-form-item label="商品类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <!--1、准旗特产2、绿色蔬菜3、水果4、米面粮油5、肉禽蛋类6、休闲食品7、酒水饮料8、副食调料9、农品供应-->
-          <a-select v-decorator.trim="[ 'offerType', validatorRules.offerType]" :readOnly="!!model.id" placeholder="请选择">
-            <a-select-option value="">请选择</a-select-option>
-            <a-select-option value="1">准旗特产</a-select-option>
-            <a-select-option value="2">绿色蔬菜</a-select-option>
-            <a-select-option value="3">水果</a-select-option>
-            <a-select-option value="4">米面粮油</a-select-option>
-            <a-select-option value="5">肉禽蛋类</a-select-option>
-            <a-select-option value="6">休闲食品</a-select-option>
-            <a-select-option value="7">酒水饮料</a-select-option>
-            <a-select-option value="8">副食调料</a-select-option>
-            <a-select-option value="9">农品供应</a-select-option>
+        <a-form-item label="主键id" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-textarea placeholder="如果新增是“村”时，必填，为上级镇id" v-decorator.trim="[ 'villageParentId', validatorRules.villageParentId]" :readOnly="!!model.id"/>
+        </a-form-item>
+        <a-form-item label="排序" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <!--1-20选择-->
+          <a-select   v-decorator.trim="[ 'sort', validatorRules.sort]"  placeholder="请选择,默认1">
+            <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
-
-        <a-form-item label="商品价格(￥)" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input-number
-            :default-value="58"
-            :precision="2"
-            v-decorator="['offerPrice', validatorRules.offerPrice]"
-          />
-        </a-form-item>
-
-        <a-form-item label="生失效时间" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-range-picker v-decorator="['offer_time_ve', validatorRules.offerTime]" />
-        </a-form-item>
-
-        <!--<a-form-item label="图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-upload
-            action=""
-            list-type="picture-card"
-            :file-list="fileList"
-          >
-            <div v-if="fileList.length < 8">
-              <a-icon type="plus" />
-              <div class="ant-upload-text">
-                Upload
-              </div>
-            </div>
-          </a-upload>
-        </a-form-item>-->
-
-
+        <a-upload
+          :action="uploadAction"
+          :headers="headers"
+          list-type="picture"
+          :multiple="false"
+          :file-list="fileList"
+          @change="handleChange"
+          v-decorator.trim="[ 'villageBack', validatorRules.villageBack]"
+        >
+          <a-button> <a-icon type="upload" /> 上传村图标 </a-button>
+        </a-upload>
+        <a-upload
+          :action="uploadAction"
+          :headers="headers"
+          list-type="picture"
+          :multiple="false"
+          :file-list="fileList1"
+          @change="handleChange1"
+          v-decorator.trim="[ 'villageMainImg', validatorRules.villageMainImg]"
+        >
+          <a-button> <a-icon type="upload" /> 上传村详情置顶图片 </a-button>
+        </a-upload>
       </a-form>
     </a-spin>
 
@@ -89,39 +75,41 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { getAction,postAction } from '@/api/manage'
-
+  import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage'
+  import {ACCESS_TOKEN} from "@/store/mutation-types";
+  import Vue from 'vue'
   export default {
-    name: "IndexManageModal",
+    name: "VillageModal",
     data () {
       return {
+        list:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        uploadAction:window._CONFIG['domianURL']+"/acc/zknh_Image_upload/upload",
+        uploadLoading:false,
+        picUrl:false,
+        fileList: [],
+        fileList1: [],
+        headers:{
+          contentType: false
+        },
+        previewImage:"",
+        previewVisible: false,
         modalWidth:800,
         drawerWidth:700,
         disableSubmit:false,
         validatorRules:{
-          offerName:{
+          villageName:{
             rules: [{
-              required: true, message: '请输入商品名称!'
+              required: true, message: '请输入村/镇名称!'
             }]
           },
-          offerDesc:{
+          villageContent:{
             rules: [{
-              required: true, message: '请输入商品描述!'
+              required: false, message: '请输入村庄简介（如果是“镇”则不需要填写）!'
             }]
           },
-          offerType:{
+          villageParentId:{
             rules: [{
-              required: true, message: '请选择商品类型!'
-            }]
-          },
-          offerPrice:{
-            rules: [{
-              required: true, message: '请输入商品价格!'
-            }]
-          },
-          offerTime:{
-            rules: [{
-              required: true, message: '请选择生失效时间!'
+              required: false, message: '如果新增是“村”时，必填，为上级镇id!'
             }]
           }
         },
@@ -142,6 +130,10 @@
     },
     computed:{
     },
+    created(){
+      const token = Vue.ls.get(ACCESS_TOKEN);
+      this.headers = {"X-Access-Token":token}
+    },
     methods: {
       //窗口最大化切换
       toggleScreen(){
@@ -154,6 +146,75 @@
       },
       refresh () {
       },
+      initFileList(paths){
+        if(!paths || paths.length==0){
+          this.fileList = [];
+          return;
+        }
+        this.picUrl = true;
+        let fileList = [];
+        let arr = paths.split(",")
+        for(var a=0;a<arr.length;a++){
+          let url = getFileAccessHttpUrl(arr[a]);
+          fileList.push({
+            uid: uidGenerator(),
+            name: getFileName(arr[a]),
+            status: 'done',
+            url: url,
+            response:{
+              status:"history",
+              message:arr[a]
+            }
+          })
+          console.log(fileList);
+        }
+        this.fileList = fileList
+      },
+      beforeUpload: function(file){
+        console.log("ceshi"+file);
+        var fileType = file.type;
+        var le2M =file.size/1024/1024 < 2;
+        if(fileType.indexOf('image')<0){
+          this.$message.warning('请上传图片');
+          return false;
+        }
+        if(!le2M){
+          this.$message.warning('上传图片大小不能超过 2M');
+          return false;
+        }
+      },
+      handleChange(info) {
+        let fileList = [...info.fileList];
+
+        // 1. Limit the number of uploaded files
+        fileList = fileList.slice(-1);
+        // 2. read from response and show file link
+        fileList = fileList.map(file => {
+          if (file.response) {
+            // Component will show file.url as link
+            file.url = file.response.url;
+          }
+          return file;
+        });
+
+        this.fileList = fileList;
+      },
+      handleChange1(info) {
+        let fileList1 = [...info.fileList1];
+
+        // 1. Limit the number of uploaded files
+        fileList1 = fileList1.slice(-1);
+        // 2. read from response and show file link
+        fileList1 = fileList1.map(file => {
+          if (file.response) {
+            // Component will show file.url as link
+            file.url = file.response.url;
+          }
+          return file;
+        });
+
+        this.fileList1 = fileList1;
+      },
       add () {
         this.refresh();
         this.edit({activitiSync:'1'});
@@ -164,12 +225,8 @@
         that.form.resetFields();
         that.visible = true;
         that.model = Object.assign({}, record);
-        let offer_time_ve = [];
-        offer_time_ve.push(record.validDate);
-        offer_time_ve.push(record.expireDate);
-        this.model.offer_time_ve = offer_time_ve;
         that.$nextTick(() => {
-          that.form.setFieldsValue(pick(this.model,'offerId','offerName','offerDesc','offerType','offerPrice','offer_time_ve'))
+          that.form.setFieldsValue(pick(this.model,'villageName','villageContent','villageParentId','sort','id'))
         });
       },
       close () {
@@ -184,21 +241,27 @@
           if (!err) {
             that.confirmLoading = true;
             let formData = Object.assign(this.model, values);
-            let validDate = values.offer_time_ve[0];
-            if(validDate){
-              formData.validDate = validDate.format(this.dateFormat);
+            //图片1的文件名
+            var aaa = this.fileList.length;
+            console.log(aaa)
+            if(aaa != 0){
+              let villageBack =this.fileList[0].name;
+              formData['villageBack']= villageBack;
             }
-            let expireDate = values.offer_time_ve[1];
-            if(expireDate){
-              formData.expireDate = expireDate.format(this.dateFormat);
+          //图片2的文件名
+            var bbb = this.fileList1.length;
+            console.log(bbb)
+            if(bbb != 0){
+              let villageMainImg =this.fileList1[0].name;
+              formData['villageMainImg']= villageMainImg;
             }
             let obj;
-            if(!this.model.offerId){
+            if(!this.model.id){
               //添加
-              obj=postAction("/offer/offer/add",formData);
+              obj=postAction("/acc/zknh_wechat_config/addVillage",formData);
             }else{
               //修改
-              obj=postAction("/offer/offer/edit",formData);
+              obj=postAction("/acc/zknh_wechat_config/editVillage",formData);
             }
             obj.then((res)=>{
               if(res.success){
@@ -232,4 +295,16 @@
 </script>
 
 <style scoped>
+/* tile uploaded pictures */
+.upload-list-inline >>> .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+.upload-list-inline >>> .ant-upload-animate-enter {
+  animation-name: uploadAnimateInlineIn;
+}
+.upload-list-inline >>> .ant-upload-animate-leave {
+  animation-name: uploadAnimateInlineOut;
+}
 </style>
