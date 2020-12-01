@@ -176,7 +176,7 @@
 
       openModelList(id){
         this.villageInfo.villageId=id;
-        this.$emit('add', id,'村模块','villageModel');
+        this.$emit('add','村模块','villageModel');
       },
       myCustomize(){
         this.queryParam.id = this.villageInfo.villagesId;
