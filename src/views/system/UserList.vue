@@ -231,7 +231,7 @@
             width: 100,
             dataIndex: 'realname',
           },
-          {
+          /*{
             title: '头像',
             align: "center",
             width: 120,
@@ -245,7 +245,7 @@
             width: 80,
             dataIndex: 'sex_dictText',
             sorter: true
-          },
+          },*/
           {
             title: '生日',
             align: "center",
@@ -258,7 +258,7 @@
             width: 100,
             dataIndex: 'phone'
           },
-          {
+          /*{
             title: '部门',
             align: "center",
             width: 180,
@@ -275,7 +275,7 @@
             align: "center",
             width: 80,
             dataIndex: 'status_dictText'
-          },
+          },*/
           {
             title: '操作',
             dataIndex: 'action',

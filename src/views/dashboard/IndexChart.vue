@@ -199,19 +199,6 @@
     },
     methods: {
       initLogInfo () {
-        getLoginfo(null).then((res)=>{
-          if(res.success){
-            Object.keys(res.result).forEach(key=>{
-              res.result[key] =res.result[key]+""
-            })
-            this.loginfo = res.result;
-          }
-        })
-        getVisitInfo().then(res=>{
-          if(res.success){
-             this.visitInfo = res.result;
-           }
-         })
       },
     }
   }

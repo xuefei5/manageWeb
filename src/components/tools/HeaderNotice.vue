@@ -118,9 +118,9 @@
       }
     },
     mounted() {
-      this.loadData();
+      //this.loadData();
       //this.timerFun();
-      this.initWebSocket();
+      //this.initWebSocket();
      // this.heartCheckFun();
     },
     destroyed: function () { // 离开页面生命周期函数

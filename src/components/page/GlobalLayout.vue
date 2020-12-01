@@ -125,6 +125,11 @@
     watch: {
       sidebarOpened(val) {
         this.collapsed = !val
+      },
+      '$route': function(newRoute) {
+        if (!this.isDesktop()) {
+          this.collapsed = false;
+        }
       }
     },
     created() {

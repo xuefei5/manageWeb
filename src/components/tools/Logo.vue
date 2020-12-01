@@ -21,7 +21,7 @@
     props: {
       title: {
         type: String,
-        default: '商城管理系统',
+        default: '准康农汇',
         required: false
       },
       showTitle: {

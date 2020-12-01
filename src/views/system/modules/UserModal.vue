@@ -282,7 +282,7 @@
     created () {
       const token = Vue.ls.get(ACCESS_TOKEN);
       this.headers = {"X-Access-Token":token}
-      this.initTenantList()
+      //this.initTenantList()
 
     },
     computed:{

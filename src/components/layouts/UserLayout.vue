@@ -5,11 +5,11 @@
         <div class="header">
           <a href="/">
             <!--<img src="~@/assets/logo.svg" class="logo" alt="logo">-->
-            <span class="title">商城后台管理系统</span>
+            <span class="title">准康农汇管理系统</span>
           </a>
         </div>
         <div class="desc">
-          商城后台管理系统
+          准康农汇管理系统
         </div>
       </div>
 

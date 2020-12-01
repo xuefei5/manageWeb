@@ -81,7 +81,7 @@
         },
 
         form:this.$form.createForm(this),
-        url: "sys/user/updatePassword",
+        url: "/acc/user/updatePassword",
         username:"",
       }
     },
