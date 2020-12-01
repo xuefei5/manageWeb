@@ -93,6 +93,7 @@
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
   import VillageModelModel from "./VillageModelModel";
   import {getFileAccessHttpUrl} from '@/api/manage';
+  import {mapState} from "vuex";
 
   export default {
     name: "VillageDetailModelList",
@@ -106,7 +107,7 @@
       return {
         queryParam: {
           //暂时写死，其实是需要父级页面传进来的
-          villageId:'1'
+          villageId:''
         },
         columns: [
           {
@@ -153,6 +154,9 @@
     },
     mounted() {
     },
+    computed:{
+      ...mapState(['villageInfo'])
+    },
     methods: {
       getAvatarView: function (avatar) {
         return getFileAccessHttpUrl(avatar);
@@ -161,7 +165,10 @@
       this.$refs.modalForm.edit({'villageId':this.queryParam.villageId});
       this.$refs.modalForm.title = "新增";
       this.$refs.modalForm.disableSubmit = false;
-    }
+    },
+      myCustomize(){
+        this.queryParam.villageId = this.villageInfo.villageId;
+      }
     }
   }
 </script>

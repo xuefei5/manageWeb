@@ -61,7 +61,13 @@ export const JeecgListMixin = {
       }
   },
   methods:{
+    myCustomize(){
+      return;
+    },
     loadData(arg) {
+      //初始化的自定义方法
+      this.myCustomize();
+
       if(!this.url.list){
         this.$message.error("请设置url.list属性!")
         return

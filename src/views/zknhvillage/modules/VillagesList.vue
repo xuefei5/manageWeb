@@ -85,7 +85,6 @@ import JInput from '@/components/jeecg/JInput'
 import JSuperQuery from '@/components/jeecg/JSuperQuery'
 import VillageModel from "./VillageModel";
 import {mapState} from 'vuex';
-import villageInfo from "@/store/modules/villageInfo";
 
 export default {
   name: "VillagesList",
@@ -158,15 +157,14 @@ export default {
     }
   },
   computed:{
-    ...mapState([villageInfo])
+    ...mapState(['villageInfo'])
   },
   mounted() {
-let aa = this.villageInfo.villageId;
-console.log("测试静态取值"+aa);
   },
   methods: {
     openVillageList(id){
-      this.$emit('add',id,'村列表','villageList');
+      this.villageInfo.villagesId=id;
+      this.$emit('add','村列表','villageList');
     },
 
   }

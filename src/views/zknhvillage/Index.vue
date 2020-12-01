@@ -9,7 +9,7 @@
           <village-list @add="add" ref='villageList'></village-list>
         </span>
         <span v-if="pane.content == 'villageModel'">
-          <village-detail-model-list ></village-detail-model-list>
+          <village-detail-model-list ref="villageModel"></village-detail-model-list>
         </span>
       </a-tab-pane>
     </a-tabs>
@@ -19,8 +19,6 @@
   import VillagesList from "./modules/VillagesList";
   import VillageList from "./modules/VillageList";
   import VillageDetailModelList from "./modules/VillageDetailModelList";
-  import {mapState} from 'vuex';
-  import villageInfo from "@/store/modules/villageInfo";
   export default {
     name:"Index",
     components: {VillageDetailModelList, VillageList, VillagesList},
@@ -35,7 +33,6 @@
       };
     },
     computed:{
-    ...mapState([villageInfo])
     },
     mounted() {
 
@@ -47,18 +44,31 @@
       onEdit(targetKey, action) {
         this[action](targetKey);
       },
-      add(id,title,key) {
+      add(title,key) {
         const panes = this.panes;
-        panes.push({
-          title: title,
-          content: key,
-          key: key,
+        //循环panes，如果存在的话则直接跳转
+        let con_this =this;
+        let isOpen = true;
+        panes.forEach(function (item, index) {
+          if(item.key==key){
+            con_this.activeKey = key;
+            if('villageList'==key){//村列表
+              con_this.$refs.villageList[0].searchQuery();
+            }
+            if('villageModel'==key){//村模块
+              con_this.$refs.villageModel[0].searchQuery();
+            }
+            isOpen = false;
+          }
         });
-        this.panes = panes;
-        this.activeKey = key;
-        if('villageList'==key){
-         this.villageInfo.villageId = id;
-         console.log("测试静态存值"+this.villageInfo.villageId);
+        if(isOpen){
+          panes.push({
+            title: title,
+            content: key,
+            key: key,
+          });
+          this.panes = panes;
+          this.activeKey = key;
         }
       },
       remove(targetKey) {

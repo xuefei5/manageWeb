@@ -85,7 +85,6 @@
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
   import VillageModel from "./VillageModel";
   import {mapState} from "vuex";
-  import villageInfo from "@/store/modules/villageInfo";
 
   export default {
     name: "VillageList",
@@ -100,7 +99,7 @@
         queryParam: {
           //为了筛选村镇，1.镇，2.村
           villageType :2,
-          id : this.$store.villageInfo.villagesId
+          id : ''
         },
         columns: [
           {
@@ -169,18 +168,18 @@
       }
     },
     computed:{
-      ...mapState([villageInfo])
+      ...mapState(['villageInfo'])
     },
     mounted() {
-      let aa = this.villageInfo.villageId;
-      console.log("测试静态取值"+aa);
-      this.searchQuery();
     },
     methods: {
 
       openModelList(id){
-
+        this.villageInfo.villageId=id;
         this.$emit('add', id,'村模块','villageModel');
+      },
+      myCustomize(){
+        this.queryParam.id = this.villageInfo.villagesId;
       }
     }
 
