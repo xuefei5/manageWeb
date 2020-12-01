@@ -168,13 +168,11 @@
             align: "center",
             dataIndex: 'modalName',
             width: 120,
-            sorter: true,
-            ellipsis:true
           },
           {
             title: '链接方式',
             align: "center",
-            width: 100,
+            width: 80,
             dataIndex: 'modalType',
           },
           {
@@ -186,19 +184,21 @@
           {
             title: '链接地址',
             align: "center",
-            width: 100,
+            width: 150,
             dataIndex: 'modalUrl'
           },
           {
             title: '排序',
             align: "center",
-            width: 120,
+            width: 80,
             dataIndex: 'sort',
+            sorter: true,
+            ellipsis:true
           },
           {
             title: '模块状态',
             align: "center",
-            width: 100,
+            width: 80,
             dataIndex: 'status',
           },
           {
@@ -210,7 +210,7 @@
           {
             title: '修改人员',
             align: "center",
-            width: 180,
+            width: 100,
             dataIndex: 'doneUserName'
           },
           {
@@ -301,7 +301,7 @@
       editMainBack(){
         this.$refs.editMainBackModal.open();
 
-        this.$refs.editMainBackModal.title = '请上传主页背景(可以在页面里提示格式),下面为背景预览'
+        this.$refs.editMainBackModal.title = '请上传主页背景(大小不要超过2M),下面为背景预览'
       }
     }
 

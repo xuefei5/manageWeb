@@ -14,7 +14,7 @@
 
           <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary"  @click="searchQuery" icon="search">查询</a-button>
             </span>
           </a-col>
 
@@ -57,7 +57,7 @@
               </a-menu-item>
 
               <a-menu-item>
-                <a href="javascript:;" @click="openVillageList(record)">村列表</a>
+                <a href="javascript:;" @click="openVillageList(record.id)">村列表</a>
               </a-menu-item>
 
               <a-menu-item>
@@ -84,6 +84,8 @@ import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 import JInput from '@/components/jeecg/JInput'
 import JSuperQuery from '@/components/jeecg/JSuperQuery'
 import VillageModel from "./VillageModel";
+import {mapState} from 'vuex';
+import villageInfo from "@/store/modules/villageInfo";
 
 export default {
   name: "VillagesList",
@@ -97,7 +99,8 @@ export default {
     return {
       queryParam: {
         //为了筛选村镇，1.镇，2.村
-        villageType :1
+        villageType :1,
+
       },
 
       columns: [
@@ -154,13 +157,18 @@ export default {
       },
     }
   },
+  computed:{
+    ...mapState([villageInfo])
+  },
   mounted() {
-
+let aa = this.villageInfo.villageId;
+console.log("测试静态取值"+aa);
   },
   methods: {
     openVillageList(id){
-      this.$emit('add', id,'村列表','villageList');
-    }
+      this.$emit('add',id,'村列表','villageList');
+    },
+
   }
 }
 </script>

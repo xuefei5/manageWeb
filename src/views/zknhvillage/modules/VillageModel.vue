@@ -24,14 +24,20 @@
       <a-form :form="form">
 
         <a-form-item label="村/镇名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input placeholder="请输入村/镇名称" v-decorator.trim="[ 'villageName', validatorRules.villageName]" :readOnly="!!model.id"/>
+          <a-input placeholder="请输入村/镇名称" v-decorator.trim="[ 'villageName', validatorRules.villageName]" />
         </a-form-item>
-
+       <!-- //1.镇 2.村-->
+        <a-form-item label="镇/村" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-select   v-decorator.trim="[ 'villageType', validatorRules.villageType]"  placeholder="请选择,默认镇">
+          <a-select-option value="1">1.镇</a-select-option>
+          <a-select-option value="2">2.村</a-select-option>
+        </a-select>
+        </a-form-item>
         <a-form-item label="村庄简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-textarea placeholder="请输入村庄简介（如果是“镇”则不需要填写）" v-decorator.trim="[ 'villageContent', validatorRules.villageContent]" :readOnly="!!model.id"/>
+          <a-textarea placeholder="请输入村庄简介（如果是“镇”则不需要填写）" v-decorator.trim="[ 'villageContent', validatorRules.villageContent]" />
         </a-form-item>
         <a-form-item label="主键id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-textarea placeholder="如果新增是“村”时，必填，为上级镇id" v-decorator.trim="[ 'villageParentId', validatorRules.villageParentId]" :readOnly="!!model.id"/>
+          <a-textarea placeholder="如果新增是“村”时，必填，为上级镇id" v-decorator.trim="[ 'villageParentId', validatorRules.villageParentId]" />
         </a-form-item>
         <a-form-item label="排序" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <!--1-20选择-->
@@ -50,6 +56,8 @@
         >
           <a-button> <a-icon type="upload" /> 上传村图标 </a-button>
         </a-upload>
+        <br />
+        <br />
         <a-upload
           :action="uploadAction"
           :headers="headers"
@@ -154,20 +162,7 @@
         this.picUrl = true;
         let fileList = [];
         let arr = paths.split(",")
-        for(var a=0;a<arr.length;a++){
-          let url = getFileAccessHttpUrl(arr[a]);
-          fileList.push({
-            uid: uidGenerator(),
-            name: getFileName(arr[a]),
-            status: 'done',
-            url: url,
-            response:{
-              status:"history",
-              message:arr[a]
-            }
-          })
-          console.log(fileList);
-        }
+
         this.fileList = fileList
       },
       beforeUpload: function(file){
@@ -226,7 +221,7 @@
         that.visible = true;
         that.model = Object.assign({}, record);
         that.$nextTick(() => {
-          that.form.setFieldsValue(pick(this.model,'villageName','villageContent','villageParentId','sort','id'))
+          that.form.setFieldsValue(pick(this.model,'villageName','villageContent','villageParentId','sort','id','villageType'))
         });
       },
       close () {

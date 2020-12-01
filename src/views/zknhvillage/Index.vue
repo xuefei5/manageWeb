@@ -3,13 +3,13 @@
     <a-tabs v-model="activeKey" hide-add type="editable-card" @edit="onEdit">
       <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title" :closable="pane.closable">
         <span v-if="pane.content == 'villagesList'">
-          <VillagesList @add="add"></VillagesList>
+          <VillagesList @add="add" ref='VillagesList'></VillagesList>
         </span>
         <span v-if="pane.content == 'villageList'">
-          <village-list @add="add"></village-list>
+          <village-list @add="add" ref='villageList'></village-list>
         </span>
         <span v-if="pane.content == 'villageModel'">
-          <village-detail-model-list></village-detail-model-list>
+          <village-detail-model-list ></village-detail-model-list>
         </span>
       </a-tab-pane>
     </a-tabs>
@@ -19,6 +19,8 @@
   import VillagesList from "./modules/VillagesList";
   import VillageList from "./modules/VillageList";
   import VillageDetailModelList from "./modules/VillageDetailModelList";
+  import {mapState} from 'vuex';
+  import villageInfo from "@/store/modules/villageInfo";
   export default {
     name:"Index",
     components: {VillageDetailModelList, VillageList, VillagesList},
@@ -31,6 +33,12 @@
         panes,
         newTabIndex: 0,
       };
+    },
+    computed:{
+    ...mapState([villageInfo])
+    },
+    mounted() {
+
     },
     methods: {
       callback(key) {
@@ -48,6 +56,10 @@
         });
         this.panes = panes;
         this.activeKey = key;
+        if('villageList'==key){
+         this.villageInfo.villageId = id;
+         console.log("测试静态存值"+this.villageInfo.villageId);
+        }
       },
       remove(targetKey) {
         let activeKey = this.activeKey;

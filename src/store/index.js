@@ -7,7 +7,7 @@ import permission from './modules/permission'
 import enhance from './modules/enhance'
 import online from './modules/online'
 import getters from './getters'
-
+import villageInfo from './modules/villageInfo'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,7 +16,8 @@ export default new Vuex.Store({
     user,
     permission,
     enhance,
-    online
+    online,
+    villageInfo
   },
   state: {
 

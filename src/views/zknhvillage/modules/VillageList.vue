@@ -7,8 +7,8 @@
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="12">
-            <a-form-item label="镇名称">
-              <j-input placeholder="输入镇名称模糊查询" v-model="queryParam.villageName"></j-input>
+            <a-form-item label="村名称">
+              <j-input placeholder="输入村名称模糊查询" v-model="queryParam.villageName"></j-input>
             </a-form-item>
           </a-col>
 
@@ -84,6 +84,8 @@
   import JInput from '@/components/jeecg/JInput'
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
   import VillageModel from "./VillageModel";
+  import {mapState} from "vuex";
+  import villageInfo from "@/store/modules/villageInfo";
 
   export default {
     name: "VillageList",
@@ -95,53 +97,61 @@
     },
     data() {
       return {
-        queryParam: {},
+        queryParam: {
+          //为了筛选村镇，1.镇，2.村
+          villageType :2,
+          id : this.$store.villageInfo.villagesId
+        },
         columns: [
           {
-            title: '商品编码',
-            align: "center",
-            dataIndex: 'offerId',
-            width: 120,
-            sorter: true,
-            ellipsis:true
-          },
-          {
-            title: '商品名称',
+            title: '主键ID',
             align: "center",
             width: 100,
-            dataIndex: 'offerName',
+            dataIndex: 'id',
           },
           {
-            title: '商品描述',
+            title: '村名称',
+            align: "center",
+            width: 100,
+            dataIndex: 'villageName',
+          },
+          {
+            title: '村庄logo',
             align: "center",
             width: 120,
-            dataIndex: 'offerDesc',
+            dataIndex: 'villageMainImg',
           },
-
           {
-            title: '商品类型',
+            title: '图片名称',
+            align: "center",
+            width: 120,
+            dataIndex: 'villageBack',
+          },
+          {
+            title: '排序',
             align: "center",
             width: 80,
-            dataIndex: 'offerType',
+            dataIndex: 'sort',
             sorter: true
           },
           {
-            title: '价格',
+            title: '上级镇id',
             align: "center",
-            width: 100,
-            dataIndex: 'offerPrice'
+            width: 80,
+            dataIndex: 'villageParentId',
+            sorter: true
           },
           {
-            title: '创建时间',
+            title: '修改时间',
             align: "center",
             width: 100,
             dataIndex: 'createTime'
           },
           {
-            title: '创建人',
+            title: '修改人员',
             align: "center",
-            width: 180,
-            dataIndex: 'createUserName'
+            width: 100,
+            dataIndex: 'doneUserName'
           },
           {
             title: '操作',
@@ -153,19 +163,27 @@
 
         ],
         url: {
-          list: "/offer/offer/list",
-          delete: "/offer/offer/delete",
+          list: "/acc/zknh_wechat_config/queryTownsVillages",
+          delete: "/acc/zknh_wechat_config/deleteVillage",
         },
       }
     },
+    computed:{
+      ...mapState([villageInfo])
+    },
     mounted() {
-
+      let aa = this.villageInfo.villageId;
+      console.log("测试静态取值"+aa);
+      this.searchQuery();
     },
     methods: {
+
       openModelList(id){
+
         this.$emit('add', id,'村模块','villageModel');
       }
     }
+
   }
 </script>
 

@@ -50,6 +50,7 @@
           <a-input placeholder="请输入链接地址" v-decorator.trim="[ 'modalUrl', validatorRules.modalUrl]" />
         </a-form-item>
        <!-- 图标上传按钮-->
+        <a-form-item label="图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-upload
           :action="uploadAction"
           :headers="headers"
@@ -61,7 +62,7 @@
         >
           <a-button> <a-icon type="upload" /> 上传图标 </a-button>
         </a-upload>
-
+        </a-form-item>
        <!-- <a-form-item label="图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-upload
             action=""
