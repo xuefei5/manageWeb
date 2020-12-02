@@ -45,6 +45,7 @@
             <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item label="图标上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-upload
           :action="uploadAction"
           :headers="headers"
@@ -56,8 +57,8 @@
         >
           <a-button> <a-icon type="upload" /> 上传村图标 </a-button>
         </a-upload>
-        <br />
-        <br />
+        </a-form-item>
+        <a-form-item label="顶置图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-upload
           :action="uploadAction"
           :headers="headers"
@@ -69,6 +70,7 @@
         >
           <a-button> <a-icon type="upload" /> 上传村详情置顶图片 </a-button>
         </a-upload>
+        </a-form-item>
       </a-form>
     </a-spin>
 
@@ -290,6 +292,17 @@
 </script>
 
 <style scoped>
+.drawer-bootom-button {
+  position: absolute;
+  bottom: -8px;
+  width: 100%;
+  border-top: 1px solid #e8e8e8;
+  padding: 10px 16px;
+  text-align: right;
+  left: 0;
+  background: #fff;
+  border-radius: 0 0 2px 2px;
+}
 /* tile uploaded pictures */
 .upload-list-inline >>> .ant-upload-list-item {
   float: left;

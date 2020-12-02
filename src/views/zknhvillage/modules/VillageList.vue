@@ -99,7 +99,7 @@
         queryParam: {
           //为了筛选村镇，1.镇，2.村
           villageType :2,
-          id : ''
+          villageParentId : ''
         },
         columns: [
           {
@@ -179,7 +179,7 @@
         this.$emit('add','村模块','villageModel');
       },
       myCustomize(){
-        this.queryParam.id = this.villageInfo.villagesId;
+        this.queryParam.villageParentId = this.villageInfo.villagesId;
       }
     }
 

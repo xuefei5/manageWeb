@@ -63,22 +63,6 @@
           <a-button> <a-icon type="upload" /> 上传图标 </a-button>
         </a-upload>
         </a-form-item>
-       <!-- <a-form-item label="图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-upload
-            action=""
-            list-type="picture-card"
-            :file-list="fileList"
-          >
-            <div v-if="fileList.length < 8">
-              <a-icon type="plus" />
-              <div class="ant-upload-text">
-                Upload
-              </div>
-            </div>
-          </a-upload>
-        </a-form-item>-->
-
-
       </a-form>
     </a-spin>
 
@@ -303,6 +287,17 @@
 </script>
 
 <style scoped>
+.drawer-bootom-button {
+  position: absolute;
+  bottom: -8px;
+  width: 100%;
+  border-top: 1px solid #e8e8e8;
+  padding: 10px 16px;
+  text-align: right;
+  left: 0;
+  background: #fff;
+  border-radius: 0 0 2px 2px;
+}
 /* tile uploaded pictures */
 .upload-list-inline >>> .ant-upload-list-item {
   float: left;

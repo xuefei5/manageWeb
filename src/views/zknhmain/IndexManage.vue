@@ -91,7 +91,18 @@
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
-
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-dropdown placement="topCenter">
+              <a-avatar style="" shape="square" :src="getAvatarView(record.modalIcon)" icon="user"/>
+              <a-menu slot="overlay">
+                <a-menu-item>
+                  <img style="height: 10rem;width: 20rem" :src="getAvatarView(record.modalIcon)"/>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+        </template>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
@@ -176,10 +187,11 @@
             dataIndex: 'modalType',
           },
           {
-            title: '图片路径/图标名称',
+            title: '图片/图标',
             align: "center",
             width: 120,
             dataIndex: 'modalIcon',
+            scopedSlots: {customRender: "avatarslot"}
           },
           {
             title: '链接地址',
@@ -309,4 +321,6 @@
 </script>
 <style scoped>
   @import '~@assets/less/common.less';
+  .anty-img-wrap{height:25px;position: relative;}
+  .anty-img-wrap > img{max-height:100%;}
 </style>
