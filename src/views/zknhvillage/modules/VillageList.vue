@@ -41,7 +41,31 @@
         :pagination="ipagination"
         :loading="loading"
         @change="handleTableChange">
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-dropdown placement="topCenter">
+              <a-avatar style="" shape="square" :src="getAvatarView(record.villageMainImg)" icon="user"/>
+              <a-menu slot="overlay">
+                <a-menu-item>
+                  <img style="height: 10rem;width: 20rem" :src="getAvatarView(record.villageMainImg)"/>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
 
+        </template>
+        <template slot="avatarslotTwo" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-dropdown placement="topCenter">
+              <a-avatar style="" shape="square" :src="getAvatarView(record.villageBack)" icon="user"/>
+              <a-menu slot="overlay">
+                <a-menu-item>
+                  <img style="height: 10rem;width: 20rem" :src="getAvatarView(record.villageBack)"/>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+        </template>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
@@ -79,7 +103,7 @@
 </template>
 
 <script>
-  import {getAction,postAction} from '@/api/manage';
+import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage';
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JInput from '@/components/jeecg/JInput'
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
@@ -119,12 +143,14 @@
             align: "center",
             width: 120,
             dataIndex: 'villageMainImg',
+            scopedSlots: {customRender: "avatarslot"}
           },
           {
             title: '图片名称',
             align: "center",
             width: 120,
             dataIndex: 'villageBack',
+            scopedSlots: {customRender: "avatarslotTwo"}
           },
           {
             title: '排序',
@@ -173,7 +199,9 @@
     mounted() {
     },
     methods: {
-
+      getAvatarView: function (avatar) {
+        return getFileAccessHttpUrl(avatar)
+      },
       openModelList(id){
         this.villageInfo.villageId=id;
         this.$emit('add','村模块','villageModel');
@@ -187,5 +215,6 @@
 </script>
 
 <style scoped>
-
+.anty-img-wrap{height:25px;position: relative;}
+.anty-img-wrap > img{max-height:100%;}
 </style>

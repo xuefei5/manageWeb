@@ -158,11 +158,12 @@
   import JInput from '@/components/jeecg/JInput'
   import JSuperQuery from '@/components/jeecg/JSuperQuery'
   import UploadMain from "./modules/UploadMain";
-
+  import {mapState} from 'vuex';
   export default {
     name: "IndexManage",
     mixins: [JeecgListMixin],
     components: {
+      VillageModel,
       UploadMain,
       IndexManageModal,
       JInput,
@@ -242,8 +243,16 @@
       }
     },
     computed: {
+      ...mapState(['villageInfo'])
+    },
+    mounted(){
+      this.getmodalIcon();
     },
     methods: {
+      getmodalIcon(){
+        this.villageInfo.villagesId=this.queryParam.modalIcon;
+        console.log("ceshi"+this.villageInfo.villagesId);
+      },
       getAvatarView: function (avatar) {
         return getFileAccessHttpUrl(avatar)
       },
