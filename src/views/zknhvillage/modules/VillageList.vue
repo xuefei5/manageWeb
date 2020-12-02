@@ -202,9 +202,9 @@ import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage';
       getAvatarView: function (avatar) {
         return getFileAccessHttpUrl(avatar)
       },
-      openModelList(id){
-        this.villageInfo.villageId=id;
-        this.$emit('add','村模块','villageModel');
+      openModelList(recond){
+        this.villageInfo.villageId=recond.id;
+        this.$emit('add',recond.villageName,'villageModel');
       },
       myCustomize(){
         this.queryParam.villageParentId = this.villageInfo.villagesId;

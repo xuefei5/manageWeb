@@ -51,9 +51,11 @@
         let isOpen = true;
         panes.forEach(function (item, index) {
           if(item.key==key){
+            item.title = title;
             con_this.activeKey = key;
             if('villageList'==key){//村列表
               con_this.$refs.villageList[0].searchQuery();
+              con_this.remove('villageModel');
             }
             if('villageModel'==key){//村模块
               con_this.$refs.villageModel[0].searchQuery();

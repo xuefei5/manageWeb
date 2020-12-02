@@ -167,6 +167,7 @@
       this.$refs.modalForm.disableSubmit = false;
     },
       myCustomize(){
+        console.log("进入模块===="+this.villageInfo.villageId);
         this.queryParam.villageId = this.villageInfo.villageId;
       }
     }

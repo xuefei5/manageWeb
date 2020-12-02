@@ -18,12 +18,12 @@
           label="背景图上传">
           <j-image-upload calss="avatar-uploader" v-model="fileList"></j-image-upload>
         </a-form-item>
-        <a-form-item
+        <!--<a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="主页预览">
           <img :src="'http://39.104.93.182/images/'+fileList" style="width: 50%;height: 50%"/>
-        </a-form-item>
+        </a-form-item>-->
       </a-form>
     </a-spin>
   </a-modal>

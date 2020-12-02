@@ -163,7 +163,6 @@
     name: "IndexManage",
     mixins: [JeecgListMixin],
     components: {
-      VillageModel,
       UploadMain,
       IndexManageModal,
       JInput,
@@ -322,7 +321,7 @@
       editMainBack(){
         this.$refs.editMainBackModal.open();
 
-        this.$refs.editMainBackModal.title = '请上传主页背景(大小不要超过2M),下面为背景预览'
+        this.$refs.editMainBackModal.title = '主页背景上传[2M以内]'
       }
     }
 

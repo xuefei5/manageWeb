@@ -68,7 +68,7 @@
               </a-menu-item>
 
               <a-menu-item>
-                <a href="javascript:;" @click="openVillageList(record.id)">村列表</a>
+                <a href="javascript:;" @click="openVillageList(record)">村列表</a>
               </a-menu-item>
 
               <a-menu-item>
@@ -177,9 +177,9 @@ export default {
     getAvatarView: function (avatar) {
       return getFileAccessHttpUrl(avatar)
     },
-    openVillageList(id){
-      this.villageInfo.villagesId=id;
-      this.$emit('add','村列表','villageList');
+    openVillageList(recond){
+      this.villageInfo.villagesId=recond.id;
+      this.$emit('add',recond.villageName,'villageList');
     },
 
   }
