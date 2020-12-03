@@ -24,7 +24,7 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator" style="border-top: 5px">
-      <a-button @click="handleAdd" type="primary" icon="plus">添加镇</a-button>
+      <a-button @click="myHandleAdd" type="primary" icon="plus">添加镇</a-button>
     </div>
     <!-- 操作按钮区域 -->
 
@@ -85,7 +85,7 @@
     </div>
     <!-- table区域-end -->
 
-    <village-model ref="modalForm"></village-model>
+    <village-model ref="modalForm" @ok="modalFormOk"></village-model>
   </div>
 </template>
 
@@ -172,6 +172,7 @@ export default {
     ...mapState(['villageInfo'])
   },
   mounted() {
+
   },
   methods: {
     getAvatarView: function (avatar) {
@@ -181,7 +182,12 @@ export default {
       this.villageInfo.villagesId=recond.id;
       this.$emit('add',recond.villageName,'villageList');
     },
-
+    myHandleAdd: function () {
+      this.$refs.modalForm.edit({});
+      this.$refs.modalForm.title = "新增";
+      this.$refs.modalForm.disableSubmit = false;
+      this.$refs.modalForm.villageType='1';
+    },
   }
 }
 </script>

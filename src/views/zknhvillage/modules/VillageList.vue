@@ -24,7 +24,7 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator" style="border-top: 5px">
-      <a-button @click="handleAdd" type="primary" icon="plus">添加村</a-button>
+      <a-button @click="myHandleAdd" type="primary" icon="plus">添加村</a-button>
     </div>
     <!-- 操作按钮区域 -->
 
@@ -98,7 +98,7 @@
     </div>
     <!-- table区域-end -->
 
-    <village-model ref="modalForm"></village-model>
+    <village-model ref="modalForm" @ok="modalFormOk"></village-model>
   </div>
 </template>
 
@@ -159,13 +159,13 @@ import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage';
             dataIndex: 'sort',
             sorter: true
           },
-          {
+          /*{
             title: '上级镇id',
             align: "center",
             width: 80,
             dataIndex: 'villageParentId',
             sorter: true
-          },
+          },*/
           {
             title: '修改时间',
             align: "center",
@@ -208,6 +208,12 @@ import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage';
       },
       myCustomize(){
         this.queryParam.villageParentId = this.villageInfo.villagesId;
+      },
+      myHandleAdd: function () {
+        this.$refs.modalForm.edit({});
+        this.$refs.modalForm.title = "新增";
+        this.$refs.modalForm.disableSubmit = false;
+        this.$refs.modalForm.villageParentId =this.queryParam.villageParentId;
       }
     }
 

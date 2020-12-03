@@ -56,14 +56,6 @@
             <a-icon type="delete" @click="batchDel"/>
             删除
           </a-menu-item>
-          <a-menu-item key="2">
-            <a-icon type="lock" @click="batchFrozen('2')"/>
-            生效
-          </a-menu-item>
-          <a-menu-item key="3">
-            <a-icon type="unlock" @click="batchFrozen('1')"/>
-            失效
-          </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
           批量操作
@@ -103,6 +95,15 @@
             </a-dropdown>
           </div>
         </template>
+        <spen slot = "modelSort" slot-scope="text, record">
+          <spen v-if="text=='1'">内部链接</spen>
+          <spen v-if="text=='2'">外部链接</spen>
+          <spen v-if="text=='3'">主页背景图</spen>
+        </spen>
+        <spen slot = "modelStatus" slot-scope="text, record">
+          <spen v-if="text=='1'">生效</spen>
+          <spen v-if="text=='2'">失效</spen>
+        </spen>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
@@ -145,7 +146,7 @@
     <!-- table区域-end -->
 
     <index-manage-modal ref="modalForm" @ok="modalFormOk"></index-manage-modal>
-    <upload-main ref="editMainBackModal"></upload-main>
+    <upload-main ref="editMainBackModal" @ok="modalFormOk"></upload-main>
 
   </a-card>
 </template>
@@ -185,6 +186,7 @@
             align: "center",
             width: 80,
             dataIndex: 'modalType',
+            scopedSlots: {customRender: 'modelSort'}
           },
           {
             title: '图片/图标',
@@ -212,6 +214,7 @@
             align: "center",
             width: 80,
             dataIndex: 'status',
+            scopedSlots: {customRender: 'modelStatus'}
           },
           {
             title: '修改时间',
