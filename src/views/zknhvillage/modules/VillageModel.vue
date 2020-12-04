@@ -48,31 +48,11 @@
             <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="图标上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-upload
-          :action="uploadAction"
-          :headers="headers"
-          list-type="picture"
-          :multiple="false"
-          :file-list="fileList"
-          @change="handleChange"
-          v-decorator.trim="[ 'villageBack', validatorRules.villageBack]"
-        >
-          <a-button> <a-icon type="upload" /> 上传村图标 </a-button>
-        </a-upload>
+        <a-form-item label="村镇图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-image-upload ref="imageUpload" class="avatar-uploader" text="请上传图片" v-model="fileList"></j-image-upload>
         </a-form-item>
-        <a-form-item label="顶置图片上传" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-upload
-          :action="uploadAction"
-          :headers="headers"
-          list-type="picture"
-          :multiple="false"
-          :file-list="fileList1"
-          @change="handleChange1"
-          v-decorator.trim="[ 'villageMainImg', validatorRules.villageMainImg]"
-        >
-          <a-button> <a-icon type="upload" /> 上传村详情置顶图片 </a-button>
-        </a-upload>
+        <a-form-item label="村集体顶置图片" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <j-image-upload ref="imageUpload" class="avatar-uploader" text="请上传图片" v-model="fileList1"></j-image-upload>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -88,11 +68,17 @@
 
 <script>
   import pick from 'lodash.pick'
+  import JImageUpload from '../../../components/jeecg/JImageUpload'
   import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage'
   import {ACCESS_TOKEN} from "@/store/mutation-types";
   import Vue from 'vue'
+  import JEditor from "@comp/jeecg/JEditor";
   export default {
     name: "VillageModal",
+    components: {
+      JEditor,
+      JImageUpload,
+    },
     data () {
       return {
         list:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
@@ -162,17 +148,6 @@
       },
       refresh () {
       },
-      initFileList(paths){
-        if(!paths || paths.length==0){
-          this.fileList = [];
-          return;
-        }
-        this.picUrl = true;
-        let fileList = [];
-        let arr = paths.split(",")
-
-        this.fileList = fileList
-      },
       beforeUpload: function(file){
         console.log("ceshi"+file);
         var fileType = file.type;
@@ -185,38 +160,6 @@
           this.$message.warning('上传图片大小不能超过 2M');
           return false;
         }
-      },
-      handleChange(info) {
-        let fileList = [...info.fileList];
-
-        // 1. Limit the number of uploaded files
-        fileList = fileList.slice(-1);
-        // 2. read from response and show file link
-        fileList = fileList.map(file => {
-          if (file.response) {
-            // Component will show file.url as link
-            file.url = file.response.url;
-          }
-          return file;
-        });
-
-        this.fileList = fileList;
-      },
-      handleChange1(info) {
-        let fileList1 = [...info.fileList1];
-
-        // 1. Limit the number of uploaded files
-        fileList1 = fileList1.slice(-1);
-        // 2. read from response and show file link
-        fileList1 = fileList1.map(file => {
-          if (file.response) {
-            // Component will show file.url as link
-            file.url = file.response.url;
-          }
-          return file;
-        });
-
-        this.fileList1 = fileList1;
       },
       add () {
         this.refresh();
@@ -231,6 +174,17 @@
         that.$nextTick(() => {
           that.form.setFieldsValue(pick(this.model,'villageName','villageContent','sort','id'))
         });
+        //图片特殊处理
+        if(this.model.villageMainImg){
+          this.fileList1 = this.model.villageMainImg;
+        }else{
+          this.fileList1 = [];
+        }
+        if(this.model.villageBack){
+          this.fileList = this.model.villageBack;
+        }else{
+          this.fileList = [];
+        }
       },
       close () {
         this.$emit('close');
@@ -245,19 +199,9 @@
             that.confirmLoading = true;
             let formData = Object.assign(this.model, values);
             //图片1的文件名
-            var aaa = this.fileList.length;
-            console.log(aaa)
-            if(aaa != 0){
-              let villageBack =this.fileList[0].name;
-              formData['villageBack']= villageBack;
-            }
+            formData.villageBack = this.fileList;//把获取到的图片名称放到villageBack
           //图片2的文件名
-            var bbb = this.fileList1.length;
-            console.log(bbb)
-            if(bbb != 0){
-              let villageMainImg =this.fileList1[0].name;
-              formData['villageMainImg']= villageMainImg;
-            }
+            formData.villageMainImg = this.fileList1;//把获取到的图片名称放到villageMainImg
           //获取上级镇id
             let villageType = this.villageType;
             console.log("villageType="+villageType);
@@ -313,6 +257,10 @@
 </script>
 
 <style scoped>
+.avatar-uploader > .ant-upload {
+  width:104px;
+  height:104px;
+}
 .drawer-bootom-button {
   position: absolute;
   bottom: -8px;

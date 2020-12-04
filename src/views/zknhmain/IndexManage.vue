@@ -95,15 +95,15 @@
             </a-dropdown>
           </div>
         </template>
-        <spen slot = "modelSort" slot-scope="text, record">
-          <spen v-if="text=='1'">内部链接</spen>
-          <spen v-if="text=='2'">外部链接</spen>
-          <spen v-if="text=='3'">主页背景图</spen>
-        </spen>
-        <spen slot = "modelStatus" slot-scope="text, record">
-          <spen v-if="text=='1'">生效</spen>
-          <spen v-if="text=='2'">失效</spen>
-        </spen>
+        <span slot = "modelSort" slot-scope="text, record">
+          <span v-if="text=='1'">内部链接</span>
+          <span v-if="text=='2'">外部链接</span>
+          <span v-if="text=='3'">主页背景图</span>
+        </span>
+        <span slot = "modelStatus" slot-scope="text, record">
+          <span v-if="text=='1'">生效</span>
+          <span v-if="text=='2'">失效</span>
+        </span>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 

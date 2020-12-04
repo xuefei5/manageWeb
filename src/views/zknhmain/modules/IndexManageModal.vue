@@ -112,12 +112,12 @@
             rules: [{
               required: true, message: '请输入模块优先级!'
             }]
-          },
-          modalUrl:{
+          }
+          /*modalUrl:{
             rules: [{
               required: true, message: '请输入链接地址!'
             }]
-          }
+          }*/
         },
         title:"操作",
         visible: false,
@@ -175,6 +175,18 @@
         that.form.resetFields();
         that.visible = true;
         that.model = Object.assign({}, record);
+        let modalType = that.model.modalType;
+        if(modalType =='1'){//转义1：内部链接，2.外部链接
+          that.model.modalType = '内部链接';
+        }else if(modalType =='2'){
+          that.model.modalType = '外部链接';
+        }
+        let status = that.model.status;
+        if(status =='1'){//转义1：生效，2.失效
+          that.model.status = '生效';
+        }else if(status =='2'){
+          that.model.status = '失效';
+        }
         that.$nextTick(() => {
           that.form.setFieldsValue(pick(this.model,'id','modalName','modalType','modalIcon','iconType','modalUrl','sort','status'))
         });
@@ -197,13 +209,25 @@
           if (!err) {
             that.confirmLoading = true;
             let formData = Object.assign(this.model, values);
-            formData.fileList = this.fileList;
+            formData.modalIcon = this.fileList;//把获取到的图片名称放到modalIcon
             let obj;
             if(!this.model.id){
               //添加
               obj=postAction("/acc/zknh_wechat_config/addModule",formData);
             }else{
               //修改
+              let modalTypeNB = this.model.modalType;//内部/外部
+              if(modalTypeNB =='内部链接'){
+                formData.modalType='1';
+              }else if(modalTypeNB =='外部链接'){
+                formData.modalType='2';
+              }
+              let status = this.model.status;//内部/外部
+              if(status =='生效'){
+                formData.status='1';
+              }else if(status =='失效'){
+                formData.status='2';
+              }
               obj=postAction("/acc/zknh_wechat_config/editModule",formData);
             }
             console.log(obj);
