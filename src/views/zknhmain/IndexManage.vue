@@ -125,13 +125,13 @@
               </a-menu-item>
 
               <a-menu-item v-if="record.status==1">
-                <a-popconfirm title="确定冻结吗?" @confirm="() => handleFrozen(record.id,2,record.username)">
+                <a-popconfirm title="确定失效吗?" @confirm="() => handleFrozen(record,2)">
                   <a>失效</a>
                 </a-popconfirm>
               </a-menu-item>
 
               <a-menu-item v-if="record.status==2">
-                <a-popconfirm title="确定解冻吗?" @confirm="() => handleFrozen(record.id,1,record.username)">
+                <a-popconfirm title="确定生效吗?" @confirm="() => handleFrozen(record,1)">
                   <a>生效</a>
                 </a-popconfirm>
               </a-menu-item>
@@ -281,7 +281,7 @@
           });
           that.$confirm({
             title: "确认操作",
-            content: "是否" + (status == 1 ? "解冻" : "冻结") + "选中账号?",
+            content: "是否" + (status == 1 ? "生效" : "失效") + "选中数据?",
             onOk: function () {
               modelUpdate({id: ids, status: status}).then((res) => {
                 if (res.success) {
@@ -305,14 +305,10 @@
           this.batchFrozen(1);
         }
       },
-      handleFrozen: function (id, status, username) {
+      handleFrozen: function (recond, status) {
         let that = this;
-        //TODO 后台校验管理员角色
-        if ('admin' == username) {
-          that.$message.warning('管理员账号不允许此操作！');
-          return;
-        }
-        modelUpdate({id: id, status: status}).then((res) => {
+        recond.status = status;
+        modelUpdate(recond).then((res) => {
           if (res.success) {
             that.$message.success(res.message);
             that.loadData();

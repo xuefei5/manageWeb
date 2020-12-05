@@ -142,7 +142,7 @@
             dataIndex: 'action',
             scopedSlots: {customRender: 'action'},
             align: "center",
-            width: 50
+            width: 170
           }
 
         ],

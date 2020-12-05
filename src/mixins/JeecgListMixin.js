@@ -32,7 +32,7 @@ export const JeecgListMixin = {
       /* 排序参数 */
       isorter:{
         column: 'createTime',
-        order: 'desc',
+        order: 'asc',
       },
       /* 筛选参数 */
       filters: {},

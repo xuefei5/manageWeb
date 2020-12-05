@@ -27,7 +27,7 @@
         <a-form-item label="排序" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <!--1-20选择-->
           <a-select   v-decorator.trim="[ 'sort', validatorRules.sort]"  placeholder="请选择,默认1">
-            <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
+            <a-select-option v-for = 'item in list' :value="item" :key="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="链接方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -98,26 +98,11 @@
               required: true, message: '请输入模块名称!'
             }]
           },
-         /* modalType:{
-            rules: [{
-              required: true, message: '请选择链接方式!'
-            }]
-          },
-          status:{
-            rules: [{
-              required: true, message: '请选择模块状态!'
-            }]
-          },*/
           sort:{
             rules: [{
               required: true, message: '请输入模块优先级!'
             }]
           }
-          /*modalUrl:{
-            rules: [{
-              required: true, message: '请输入链接地址!'
-            }]
-          }*/
         },
         title:"操作",
         visible: false,
@@ -175,18 +160,17 @@
         that.form.resetFields();
         that.visible = true;
         that.model = Object.assign({}, record);
+        if(that.model.modalType){
+          that.model.modalType = that.model.modalType+'';
+        }else{
+          that.model.modalType = '2';
+        }
+        if(that.model.status){
+          that.model.status = that.model.status+'';
+        }else{
+          that.model.status = '1';
+        }
         let modalType = that.model.modalType;
-        if(modalType =='1'){//转义1：内部链接，2.外部链接
-          that.model.modalType = '内部链接';
-        }else if(modalType =='2'){
-          that.model.modalType = '外部链接';
-        }
-        let status = that.model.status;
-        if(status =='1'){//转义1：生效，2.失效
-          that.model.status = '生效';
-        }else if(status =='2'){
-          that.model.status = '失效';
-        }
         that.$nextTick(() => {
           that.form.setFieldsValue(pick(this.model,'id','modalName','modalType','modalIcon','iconType','modalUrl','sort','status'))
         });
@@ -211,23 +195,11 @@
             let formData = Object.assign(this.model, values);
             formData.modalIcon = this.fileList;//把获取到的图片名称放到modalIcon
             let obj;
+            formData['iconType'] = '1';
             if(!this.model.id){
               //添加
               obj=postAction("/acc/zknh_wechat_config/addModule",formData);
             }else{
-              //修改
-              let modalTypeNB = this.model.modalType;//内部/外部
-              if(modalTypeNB =='内部链接'){
-                formData.modalType='1';
-              }else if(modalTypeNB =='外部链接'){
-                formData.modalType='2';
-              }
-              let status = this.model.status;//内部/外部
-              if(status =='生效'){
-                formData.status='1';
-              }else if(status =='失效'){
-                formData.status='2';
-              }
               obj=postAction("/acc/zknh_wechat_config/editModule",formData);
             }
             console.log(obj);
@@ -236,7 +208,6 @@
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');
-                console.log("11"+res);
               }else{
                 that.$message.warning(res.message);
               }

@@ -132,6 +132,7 @@
     },
     methods: {
       edit (record) {
+        this.resetScreenSize(); // 调用此方法,根据屏幕宽度自适应调整抽屉的宽度
         this.form.resetFields();
 
         if(record.modelSort){
@@ -202,6 +203,15 @@
             this.form.detail = res.result;
           }
         });
+      },
+      // 根据屏幕变化,设置抽屉尺寸
+      resetScreenSize(){
+        let screenWidth = document.body.clientWidth;
+        if(screenWidth < 500){
+          this.drawerWidth = screenWidth;
+        }else{
+          this.drawerWidth = 700;
+        }
       }
     }
   }

@@ -54,7 +54,7 @@
           </div>
         </template>
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="myHandleEdit(record)">编辑</a>
 
           <a-divider type="vertical"/>
 
@@ -185,6 +185,12 @@ export default {
     myHandleAdd: function () {
       this.$refs.modalForm.edit({});
       this.$refs.modalForm.title = "新增";
+      this.$refs.modalForm.disableSubmit = false;
+      this.$refs.modalForm.villageType='1';
+    },
+    myHandleEdit: function (record) {
+      this.$refs.modalForm.edit(record);
+      this.$refs.modalForm.title = "编辑";
       this.$refs.modalForm.disableSubmit = false;
       this.$refs.modalForm.villageType='1';
     },

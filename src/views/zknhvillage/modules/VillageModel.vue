@@ -23,18 +23,11 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
-        <a-form-item label="村/镇名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input placeholder="请输入村/镇名称" v-decorator.trim="[ 'villageName', validatorRules.villageName]" />
+        <a-form-item :label="villageNameForLable" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-input placeholder="请输入名称" v-decorator.trim="[ 'villageName', validatorRules.villageName]" />
         </a-form-item>
-       <!-- //1.镇 2.村-->
-        <!--<a-form-item label="镇/村" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-select   v-decorator.trim="[ 'villageType', validatorRules.villageType]"  placeholder="请选择,默认镇">
-          <a-select-option v-if="villageType == '1' value="1">1.镇</a-select-option>
-          <a-select-option  v-if="villageType == '2'" value="2">2.村</a-select-option>
-        </a-select>
-        </a-form-item>-->
-        <a-form-item label="村庄简介" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-textarea placeholder="请输入村庄简介（如果是“镇”则不需要填写）" v-decorator.trim="[ 'villageContent', validatorRules.villageContent]" />
+        <a-form-item label="村庄简介" :labelCol="labelCol" :wrapperCol="wrapperCol" v-if="villageType !=1 ">
+          <a-textarea placeholder="请输入村庄简介" v-decorator.trim="[ 'villageContent', validatorRules.villageContent]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -44,14 +37,14 @@
         </a-form-item>
         <a-form-item label="排序" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <!--1-20选择-->
-          <a-select   v-decorator.trim="[ 'sort', validatorRules.sort]"  placeholder="请选择,默认1">
-            <a-select-option v-for = 'item in list' :value="item">{{item}}</a-select-option>
+          <a-select   v-decorator.trim="[ 'sort', validatorRules.sort]"  placeholder="请选择">
+            <a-select-option v-for = 'item in list' :value="item" :key="item">{{item}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="村镇图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-form-item :label="iconForLable" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <j-image-upload ref="imageUpload" class="avatar-uploader" text="请上传图片" v-model="fileList"></j-image-upload>
         </a-form-item>
-        <a-form-item label="村集体顶置图片" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-form-item label="村模块置顶图片" :labelCol="labelCol" :wrapperCol="wrapperCol" v-if="villageType !=1 ">
           <j-image-upload ref="imageUpload" class="avatar-uploader" text="请上传图片" v-model="fileList1"></j-image-upload>
         </a-form-item>
       </a-form>
@@ -130,7 +123,21 @@
       }
     },
     computed:{
+      villageNameForLable(){
+        if(this.villageType == '1'){
+          return "镇名称";
+        }else{
+          return "村名称";
+        }
 
+      },
+      iconForLable(){
+        if(this.villageType == '1'){
+          return "镇图标";
+        }else{
+          return "村图标";
+        }
+      }
     },
     created(){
       const token = Vue.ls.get(ACCESS_TOKEN);
