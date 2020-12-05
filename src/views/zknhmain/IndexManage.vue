@@ -189,7 +189,7 @@
             scopedSlots: {customRender: 'modelSort'}
           },
           {
-            title: '图片/图标',
+            title: '图标',
             align: "center",
             width: 120,
             dataIndex: 'modalIcon',
