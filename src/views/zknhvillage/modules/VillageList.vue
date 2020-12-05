@@ -139,14 +139,14 @@ import {getAction, getFileAccessHttpUrl, postAction} from '@/api/manage';
             dataIndex: 'villageName',
           },
           {
-            title: '村庄logo',
+            title: '村图标',
             align: "center",
             width: 120,
             dataIndex: 'villageMainImg',
             scopedSlots: {customRender: "avatarslot"}
           },
           {
-            title: '图片名称',
+            title: '模块置顶图',
             align: "center",
             width: 120,
             dataIndex: 'villageBack',

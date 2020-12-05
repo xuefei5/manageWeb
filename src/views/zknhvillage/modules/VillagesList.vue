@@ -127,7 +127,7 @@ export default {
           dataIndex: 'villageName',
         },
         {
-          title: '图片名称',
+          title: '镇图标',
           align: "center",
           width: 120,
           dataIndex: 'villageBack',
