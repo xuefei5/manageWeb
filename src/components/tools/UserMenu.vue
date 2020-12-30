@@ -31,10 +31,10 @@
         <span v-if="isDesktop()">欢迎您，{{ nickname() }}</span>
       </span>
       <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
-        <a-menu-item key="3"  @click="systemSetting">
+        <!--<a-menu-item key="3"  @click="systemSetting">
            <a-icon type="tool"/>
            <span>系统设置</span>
-        </a-menu-item>
+        </a-menu-item>-->
         <a-menu-item key="4" @click="updatePassword">
           <a-icon type="setting"/>
           <span>密码修改</span>
